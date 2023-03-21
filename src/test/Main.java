@@ -4,6 +4,7 @@ import static java.lang.System.out;
 import static primitives.Util.isZero;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 /** Test program for the 1st stage
