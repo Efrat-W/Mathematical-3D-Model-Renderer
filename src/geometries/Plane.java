@@ -21,10 +21,11 @@ public class Plane implements Geometry {
 	}
 
 	/**
-	 * Plane constructor based on a point and a normal vector perpendicular to the plane.
+	 * Plane constructor based on a point and a normal vector perpendicular to the
+	 * plane.
 	 * 
-	 * @param p point on the plane
-	 * @param vec normal vector to the plane 
+	 * @param p   point on the plane
+	 * @param vec normal vector to the plane
 	 */
 	public Plane(Point p, Vector vec) {
 		q0 = p;

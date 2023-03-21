@@ -10,7 +10,7 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * Sphere constructor based on a point and radius.
 	 * 
-	 * @param p center point
+	 * @param p   center point
 	 * @param rad radius
 	 */
 	public Sphere(Point p, double rad) {

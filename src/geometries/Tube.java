@@ -14,7 +14,7 @@ public class Tube extends RadialGeometry {
 	/**
 	 * Tube constructor based on axis ray and radius.
 	 * 
-	 * @param ar axis ray
+	 * @param ar  axis ray
 	 * @param rad radius
 	 */
 	public Tube(Ray ar, double rad) {

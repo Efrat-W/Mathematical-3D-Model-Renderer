@@ -9,8 +9,8 @@ public class Cylinder extends Tube {
 	/**
 	 * Cylinder constructor based on radius, axis ray and height.
 	 * 
-	 * @param h height
-	 * @param ar axis ray
+	 * @param h   height
+	 * @param ar  axis ray
 	 * @param rad radius
 	 */
 	public Cylinder(double h, Ray ar, double rad) {
