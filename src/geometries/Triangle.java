@@ -15,5 +15,4 @@ public class Triangle extends Polygon {
 		super(p1, p2, p3);
 	}
 
-	// ovveride getters of father... but now can't chnge_ tostring
 }
