@@ -10,11 +10,18 @@ public class Ray {
 	final Point p0;
 	final Vector dir;
 
+	/**
+	 * a ctor for ray
+	 * 
+	 * @param p   a point for the ray
+	 * @param vec a vector for the ray
+	 */
 	public Ray(Point p, Vector vec) {
 		p0 = p;
 		dir = vec.normalize();
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -34,12 +41,21 @@ public class Ray {
 		return "" + p0 + ", " + dir;
 	}
 
+	/**
+	 * a getter for the point field
+	 * 
+	 * @return p0
+	 */
 	public Point getPoint() {
 		return p0;
 	}
 
+	/**
+	 * a getter for the vector field
+	 * 
+	 * @return dir
+	 */
 	public Vector getDir() {
 		return dir;
 	}
-
 }

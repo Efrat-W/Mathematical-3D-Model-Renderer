@@ -5,14 +5,25 @@ package primitives;
 * 3-Dimensional coordinate system.
 * @author Efrat Wexler and Sari Zilberlicht
 */
-
 public class Point {
 	final Double3 xyz;
 
+	/**
+	 * a ctor of a point
+	 * 
+	 * @param d1 first coordinate of the point
+	 * @param d2 second coordinate of the point
+	 * @param d3 third coordinate of the point
+	 */
 	public Point(double d1, double d2, double d3) {
 		xyz = new Double3(d1, d2, d3);
 	}
 
+	/**
+	 * a ctor of a point
+	 * 
+	 * @param value a double3 to initiate the point's coordinate
+	 */
 	Point(Double3 value) {
 		xyz = new Double3(value.d1, value.d2, value.d3);
 	}
@@ -37,19 +48,43 @@ public class Point {
 		return "" + xyz;
 	}
 
+	/**
+	 * Vector subtraction
+	 * 
+	 * @param other a point to subtract
+	 * @return a new vector from the other point to current point
+	 */
 	public Vector subtract(Point other) {
 		return new Vector(xyz.subtract(other.xyz));
 	}
 
+	/**
+	 * Adding a vector to a Point
+	 * 
+	 * @param vec the vector to add
+	 * @return a new point after adding
+	 */
 	public Point add(Vector vec) {
 		return new Point(xyz.add(vec.xyz));
 	}
 
+	/**
+	 * Calculates the squared distance between two points
+	 * 
+	 * @param p the other pint we calculate the distance of
+	 * @return the squared distance
+	 */
 	public double distanceSquared(Point p) {
 		return (xyz.d1 - p.xyz.d1) * (xyz.d1 - p.xyz.d1) + (xyz.d2 - p.xyz.d2) * (xyz.d2 - p.xyz.d2)
 				+ (xyz.d3 - p.xyz.d3) * (xyz.d3 - p.xyz.d3);
 	}
 
+	/**
+	 * Calculates the distance between two points
+	 * 
+	 * @param p the other pint we calculate the distance of
+	 * @return the distance
+	 */
 	public double distance(Point p) {
 		return Math.sqrt(distanceSquared(p));
 	}
