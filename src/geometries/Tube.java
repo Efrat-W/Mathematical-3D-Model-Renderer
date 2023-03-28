@@ -23,6 +23,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
+	 * Get radius of tube
 	 * 
 	 * @return radius
 	 */
@@ -31,6 +32,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
+	 * Get axis ray
 	 * 
 	 * @return axis ray
 	 */
@@ -39,7 +41,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	/**
-	 * (not relevant in current stage)
+	 * (not relevant at this current stage)
 	 */
 	public Vector getNormal(Point p) {
 		return null;
