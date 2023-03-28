@@ -8,16 +8,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
-* Unit tests for geometries.Tube class
+* Unit tests for geometries.Cylinder class
 * @author Efrat Wexler and Sari Zilberlicht
 */
-class TubeTests {
+class CylinderTests {
 
 	/**
-	 * Test method for {@link geometries.Tube#getNormal(primitives.Point)}.
+	 * Test method for {@link geometries.Cylinder#getHeight()}.
 	 */
 	@Test
-	void testGetNormal() {
+	void testGetHeight() {
 		fail("Not yet implemented");
 	}
 

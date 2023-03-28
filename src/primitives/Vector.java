@@ -11,7 +11,7 @@ package primitives;
 public class Vector extends Point {
 
 	/**
-	 * ctor for vector
+	 * Constructor for vector
 	 * 
 	 * @param d1 first value for the point
 	 * @param d2 second value for the point
@@ -24,7 +24,7 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * ctor for vector
+	 * Constructor for vector
 	 * 
 	 * @param value a double3 to initiate the point's coordinate
 	 */
@@ -97,7 +97,7 @@ public class Vector extends Point {
 	}
 
 	/**
-	 * normalizing a vector
+	 * Returns a normalized vector
 	 * 
 	 * @return the normalized vector
 	 */

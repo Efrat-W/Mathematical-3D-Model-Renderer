@@ -10,7 +10,7 @@ public class Sphere extends RadialGeometry {
 	/**
 	 * Sphere constructor based on a point and radius.
 	 * 
-	 * @param p   center point
+	 * @param p center point
 	 * @param rad radius
 	 */
 	public Sphere(Point p, double rad) {
@@ -19,6 +19,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
+	 * Get radius of sphere
 	 * 
 	 * @return radius
 	 */
@@ -27,6 +28,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	/**
+	 * Get center point of sphere
 	 * 
 	 * @return center point
 	 */

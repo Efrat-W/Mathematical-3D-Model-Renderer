@@ -8,16 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
-* Unit tests for geometries.Tube class
+* Unit tests for geometries.Triangle class
 * @author Efrat Wexler and Sari Zilberlicht
 */
-class TubeTests {
+class TriangleTests {
 
-	/**
-	 * Test method for {@link geometries.Tube#getNormal(primitives.Point)}.
-	 */
 	@Test
-	void testGetNormal() {
+	void test() {
 		fail("Not yet implemented");
 	}
 
