@@ -3,15 +3,16 @@
  */
 package unittests.primitives;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
 /**
  * Unit tests for primitives.Point class
  * 
  * @author Efrat Wexler and Sari Zilberlicht
  */
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
 class PointTests {
 
     /**

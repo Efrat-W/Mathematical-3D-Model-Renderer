@@ -1,10 +1,19 @@
 package geometries;
 
+import primitives.Point;
+
+/*
+* Class Cylinder is the basic class representing a cylinder
+* in Cartesian 3-Dimensional coordinate system.
+* @author Efrat Wexler and Sari Zilberlicht
+*/
+
 import primitives.Ray;
+import primitives.Vector;
 
 public class Cylinder extends Tube {
 
-    final double height;
+    private final double height;
 
     /**
      * Cylinder constructor based on radius, axis ray and height.
@@ -25,6 +34,11 @@ public class Cylinder extends Tube {
      */
     public double getHeight() {
 	return height;
+    }
+    
+    @Override
+    public Vector getNormal(Point p) {
+    	return null;
     }
 
     @Override
