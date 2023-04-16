@@ -1,21 +1,22 @@
 /**
  * 
  */
-package unittests;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 /**
-* Unit tests for geometries.Triangle class
-* @author Efrat Wexler and Sari Zilberlicht
-*/
+ * Unit tests for geometries.Triangle class
+ * 
+ * @author Efrat Wexler and Sari Zilberlicht
+ */
 class TriangleTests {
 
-	@Test
-	void test() {
-		fail("Not yet implemented");
-	}
+    @Test
+    void test() {
+	fail("Not yet implemented");
+    }
 
 }
