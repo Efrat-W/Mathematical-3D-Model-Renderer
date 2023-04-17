@@ -56,11 +56,8 @@ class SphereTests {
 	Point tangentP = new Point (1, 0, 0);
 	Vector n = tangentP.subtract(center).normalize();
 	assertEquals(n, s.getNormal(tangentP), "getNormal() is wrong.");
-	//TC02:
-	Vector result = s.getNormal(new Point(1, 0, 0));
-	// ensure |result| = 1
-	assertEquals(1, result.length(), 0.00000001, "Sphere's normal is not a unit vector");
-	
+	// ensure |n| = 1
+	assertEquals(1, n.length(), 0.00000001, "Sphere's normal is not a unit vector");
     }
 
 }

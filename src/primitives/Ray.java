@@ -52,7 +52,7 @@ public class Ray {
 	/**
 	 * a getter for the vector field
 	 * 
-	 * @return dir
+	 * @return dir direction vector
 	 */
 	public Vector getDir() {
 		return dir;

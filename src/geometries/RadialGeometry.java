@@ -19,6 +19,8 @@ public abstract class RadialGeometry implements Geometry {
      * @param r radius
      */
     public RadialGeometry(double r) {
-    	radius = r;
+    	//if (r <= 0)
+    	//    throw new IllegalArgumentException("radius has to be of positive value");
+	radius = r;
     }
 }
