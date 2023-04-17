@@ -27,18 +27,20 @@ class CylinderTests {
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: There is a simple single test here - using a quad
 		Point p0 = new Point(0, 0, 0);
-		Ray ray = new Ray(p0, new Vector(1, 0, 0));
+		Vector v = new Vector(1, 0, 0);
+		Ray ray = new Ray(p0, v);
 		Cylinder cyl = new Cylinder(5, ray, 2);
 		// ensure there are no exceptions
-		assertDoesNotThrow(() -> cyl.getNormal(new Point(1, 2, 0)), "");
+		Point p = new Point(1, 2, 0);
+		assertDoesNotThrow(() -> cyl.getNormal(p), "");
 		// generate the test result
-		Vector result = cyl.getNormal(new Point(1, 2, 0));
+		Vector result = cyl.getNormal(p);
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 		// ensure the result is orthogonal to the ray
 		assertTrue(isZero(ray.getDir().dotProduct(result)), "getNormal() isn't orthogonal to the cylinder");
 		// TC02: the normal is on the 1st base
-		Point p = new Point(0, 0, 1);
+		p = new Point(0, 0, 1);
 		result = cyl.getNormal(p);
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
@@ -59,7 +61,7 @@ class CylinderTests {
 		p0 = new Point(0, 0, 0);
 		result = cyl.getNormal(p0);
 		// check that the normal is parallel to the ray
-		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(new Vector(1, 0, 0)), //
+		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(v), //
 				"getNormal() for 0 vector does not throw an exception");
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
@@ -68,7 +70,7 @@ class CylinderTests {
 		p0 = new Point(5, 0, 0);
 		result = cyl.getNormal(p0);
 		// check that the normal is parallel to the ray
-		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(new Vector(1, 0, 0)), //
+		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(v), //
 				"getNormal() for 0 vector does not throw an exception");
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
