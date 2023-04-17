@@ -50,8 +50,7 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point p) {
-		// TODO Auto-generated method stub
-		return null;
+	    return p.subtract(center).normalize();
 	}
 
 }
