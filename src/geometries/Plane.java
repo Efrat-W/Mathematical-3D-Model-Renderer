@@ -22,25 +22,27 @@ public class Plane implements Geometry {
      * @param p3 point on the plane
      */
     public Plane(Point p1, Point p2, Point p3) {
-		q0 = p1;
-		normal = null;
+	q0 = p1;
+	Vector v1 = p2.subtract(p1);
+	Vector v2 = p3.subtract(p1);
+	normal = v1.crossProduct(v2).normalize();
     }
 
     /**
-     * Plane constructor based on a point and a normal vector perpendicular
-     * to the plane.
+     * Plane constructor based on a point and a normal vector perpendicular to the
+     * plane.
      * 
      * @param p   point on the plane
      * @param vec normal vector to the plane
      */
     public Plane(Point p, Vector vec) {
-		q0 = p;
-		normal = vec.normalize();
+	q0 = p;
+	normal = vec.normalize();
     }
 
     @Override
     public Vector getNormal(Point p) {
-    	return normal;
+	return normal;
     }
 
     /**
@@ -49,12 +51,12 @@ public class Plane implements Geometry {
      * @return normal to plane
      */
     public Vector getNormal() {
-    	return normal;
+	return normal;
     }
 
     @Override
     public String toString() {
-    	return "" + q0 + ", " + normal;
+	return "" + q0 + ", " + normal;
     }
 
     /**
@@ -63,7 +65,7 @@ public class Plane implements Geometry {
      * @return point
      */
     public Point getPoint() {
-    	return q0;
+	return q0;
     }
 
 }

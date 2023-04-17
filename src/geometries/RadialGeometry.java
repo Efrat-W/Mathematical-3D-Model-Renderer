@@ -8,10 +8,10 @@ package geometries;
 
 public abstract class RadialGeometry implements Geometry {
 
-	/*
-	* the radius of the radial geometry
-	*/
-	protected final double radius;
+    /*
+     * the radius of the radial geometry
+     */
+    protected final double radius;
 
     /**
      * Radial Geometry constructor that sets the radius
@@ -19,8 +19,8 @@ public abstract class RadialGeometry implements Geometry {
      * @param r radius
      */
     public RadialGeometry(double r) {
-    	//if (r <= 0)
-    	//    throw new IllegalArgumentException("radius has to be of positive value");
+	// if (r <= 0)
+	// throw new IllegalArgumentException("radius has to be of positive value");
 	radius = r;
     }
 }
