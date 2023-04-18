@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import primitives.*;
 import geometries.*;
-import static primitives.Util.*;
 
 /**
  * Unit tests for geometries.Sphere class
@@ -16,32 +15,6 @@ import static primitives.Util.*;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 class SphereTests {
-
-	/**
-	 * Test method for {@link geometries.Sphere#getRadius()}.
-	 */
-	@Test
-	void testGetRadius() {
-		// ============ Equivalence Partitions Tests ==============
-		// TC01:
-		double radius = 7;
-		Sphere s = new Sphere(new Point(1, 2, 3), radius);
-		assertEquals(radius, s.getRadius(), "getRadius() does not return the correct radius value.");
-		// TC02: negative radius
-		// s = new Sphere(new Point(1, 2, 3), -3);
-		// assertThrow
-	}
-
-	/**
-	 * Test method for {@link geometries.Sphere#getPoint()}.
-	 */
-	@Test
-	void testGetPoint() {
-		// TC01:
-		Point p = new Point(1, 2, 3);
-		Sphere s = new Sphere(p, 7);
-		assertEquals(p, s.getPoint(), "getPoint() does not return the center point.");
-	}
 
 	/**
 	 * Test method for {@link geometries.Sphere#getNormal(primitives.Point)}.

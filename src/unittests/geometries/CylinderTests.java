@@ -4,15 +4,10 @@
 package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
-
 import org.junit.jupiter.api.Test;
 
 import geometries.Cylinder;
-import geometries.Polygon;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Unit tests for geometries.Cylinder class
@@ -31,49 +26,50 @@ class CylinderTests {
 		Ray ray = new Ray(p0, v);
 		Cylinder cyl = new Cylinder(5, ray, 2);
 		// ensure there are no exceptions
-		Point p = new Point(1, 2, 0);
-		assertDoesNotThrow(() -> cyl.getNormal(p), "");
+		Point p1 = new Point(1, 2, 0);
+		assertDoesNotThrow(() -> cyl.getNormal(p1), "");
 		// generate the test result
-		Vector result = cyl.getNormal(p);
+		Vector result = cyl.getNormal(p1);
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 		// ensure the result is orthogonal to the ray
-		assertTrue(isZero(ray.getDir().dotProduct(result)), "getNormal() isn't orthogonal to the cylinder");
+		assertEquals(ray.getDir().dotProduct(result), 0, 0.00000001, "getNormal() isn't orthogonal to the cylinder");
+
 		// TC02: the normal is on the 1st base
-		p = new Point(0, 0, 1);
-		result = cyl.getNormal(p);
+		Point p2 = new Point(0, 0, 1);
+		result = cyl.getNormal(p2);
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 		// ensure the result is orthogonal to the ray
-		Vector vec = p.subtract(p0);
-		assertTrue(isZero(result.dotProduct(vec)), "getNormal() isn't orthogonal to the cylinder");
+		Vector vec = p2.subtract(p0);
+		assertEquals(result.dotProduct(vec), 0, 0.00000001, "getNormal() isn't orthogonal to the cylinder");
+
 		// TC03: the normal is on the 2nd base
-		p = new Point(5, 0, 1);
-		p0 = new Point(5, 0, 0);
-		result = cyl.getNormal(p);
+		Point p3 = new Point(5, 0, 1);
+		Point pointh = new Point(5, 0, 0);
+		result = cyl.getNormal(p3);
 		// ensure |result| = 1
 		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 		// ensure the result is orthogonal to the ray
-		vec = p.subtract(p0);
-		assertTrue(isZero(result.dotProduct(vec)), "getNormal() isn't orthogonal to the cylinder");
+		vec = p3.subtract(pointh);
+		assertEquals(result.dotProduct(vec), 0, 0.00000001, "getNormal() isn't orthogonal to the cylinder");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: the normal is at the center of the 1st base
-		p0 = new Point(0, 0, 0);
-		result = cyl.getNormal(p0);
+		Vector result2 = cyl.getNormal(p0);
 		// check that the normal is parallel to the ray
-		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(v), //
+		assertThrows(IllegalArgumentException.class, () -> result2.crossProduct(v), //
 				"getNormal() for 0 vector does not throw an exception");
 		// ensure |result| = 1
-		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
+		assertEquals(1, result2.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 
 		// TC12: the normal is at the center of the 2nd base
-		p0 = new Point(5, 0, 0);
-		result = cyl.getNormal(p0);
+		Vector result3 = cyl.getNormal(pointh);
 		// check that the normal is parallel to the ray
-		assertThrows(IllegalArgumentException.class, () -> result.crossProduct(v), //
+		assertThrows(IllegalArgumentException.class, () -> result3.crossProduct(v), //
 				"getNormal() for 0 vector does not throw an exception");
 		// ensure |result| = 1
-		assertEquals(1, result.length(), 0.00000001, "Cylinder's normal is not a unit vector");
+		assertEquals(1, result3.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 
 	}
 

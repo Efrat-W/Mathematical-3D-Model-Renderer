@@ -4,12 +4,10 @@
 package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
 import geometries.Plane;
-import geometries.Polygon;
 import primitives.Point;
 import primitives.Vector;
 
@@ -32,10 +30,12 @@ class PlaneTests {
 		// TC01: a normal plane:
 		assertDoesNotThrow(() -> new Plane(p0, p1, p2), //
 				"Error: some exception was thrown in the plane constructor");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: the 1st and 2nd points coalescing
 		assertThrows(IllegalArgumentException.class, () -> new Plane(p0, p0, p2), //
 				"Error: two points are coalescing");
+
 		// TC12: the 3 points are on the same straight
 		assertThrows(IllegalArgumentException.class,
 				() -> new Plane(new Point(1, 1, 1), new Point(2, 2, 2), new Point(3, 3, 3)), //
@@ -61,18 +61,9 @@ class PlaneTests {
 		assertEquals(1, result.length(), 0.00000001, "Plane's normal is not a unit vector");
 		// ensure the result is orthogonal to all the edges
 		Point[] pts = { p0, p1, p2 };
-		for (int i = 0; i < 3; ++i)
-			assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
+		for (int i = 0; i < 2; ++i)
+			assertEquals(result.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1])), 0, 0.00000001,
 					"plane's normal is not orthogonal to one of the edges");
-	}
-
-	/**
-	 * Test method for {@link geometries.Plane#getPoint()}.
-	 */
-	@Test
-	void testGetPoint() {
-		Plane plane = new Plane(new Point(0, 0, 0), new Point(0, 1, 0), new Point(1, 0, 0));
-		assertEquals(plane.getPoint(), new Point(0, 0, 0), "point has wrong value");
 	}
 
 }

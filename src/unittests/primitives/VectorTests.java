@@ -3,14 +3,12 @@
  */
 package unittests.primitives;
 
-import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 import primitives.Double3;
 import primitives.Vector;
-import static primitives.Util.*;
 
 /**
  * Unit tests for primitives.Vector class
@@ -27,13 +25,9 @@ class VectorTests {
 	@Test
 	public void testConstructors() {
 		// ============ Equivalence Partitions Tests ==============
-		//TC01: a constructor based on 3 double values:
+		// TC01: a constructor based on 3 double values:
 		assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0),
 				"constructor for 0 vector does not throw an exception");
-		//TC02: a constructor based on double3 value:
-		//Double3 double3= new Double3(0);
-	//	assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0),
-		//		"constructor for 0 vector does not throw an exception");
 
 	}
 
@@ -48,30 +42,36 @@ class VectorTests {
 		Vector v2 = new Vector(-2, 0, 4);
 		Vector newVec = v1.add(v2);
 		assertEquals(new Vector(-1, 1, 8), newVec, "Add() wrong result");
+
 		// TC02: for a sharp angle
 		Vector v3 = new Vector(0, 3, 4);
 		newVec = v1.add(v3);
 		assertEquals(new Vector(1, 4, 8), newVec, "Add() wrong result");
+
 		// TC03: orthogonal vectors:
-		v1 = new Vector(1, 2, 3);
+		Vector v4 = new Vector(1, 2, 3);
 		v2 = new Vector(0, 3, -2);
-		newVec = v1.add(v2);
+		newVec = v4.add(v2);
 		assertEquals(new Vector(1, 5, 1), newVec, "Add() wrong result");
+
 		// TC04: parallel vectors same length:
-		newVec = v1.add(v1);
+		newVec = v4.add(v4);
 		assertEquals(new Vector(2, 4, 6), newVec, "Add() wrong result");
+
 		// TC05: parallel vectors different length:
 		v3 = new Vector(2, 4, 6);
-		newVec = v1.add(v3);
+		newVec = v4.add(v3);
 		assertEquals(new Vector(3, 6, 9), newVec, "Add() wrong result");
+
 		// TC06: opposite direction different length:
 		v3 = new Vector(-2, -4, -6);
-		newVec = v1.add(v3);
+		newVec = v4.add(v3);
 		assertEquals(new Vector(-1, -2, -3), newVec, "Add() wrong result");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: opposite direction same length:
-		v3 = new Vector(-1, -2, -3);
-		assertThrows(IllegalArgumentException.class, () -> v1.add(v3),
+		Vector v5 = new Vector(-1, -2, -3);
+		assertThrows(IllegalArgumentException.class, () -> v4.add(v5),
 				"add() for 0 vector does not throw an exception");
 	}
 
@@ -87,6 +87,7 @@ class VectorTests {
 		assertEquals(newVector, new Vector(5, 10, 15), "Scale() wrong result");
 		assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(newVector),
 				"the scaled vector is not in the same direction");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: the scalar is 0
 		assertThrows(IllegalArgumentException.class, () -> v1.scale(0),
@@ -104,31 +105,37 @@ class VectorTests {
 		Vector v2 = new Vector(-2, 0, 4);
 		double scal = v1.dotProduct(v2);
 		assertEquals(14, scal, "DotProduct() wrong result");
+
 		// TC02: for a sharp angle
 		Vector v3 = new Vector(0, 3, 4);
 		scal = v1.dotProduct(v3);
 		assertEquals(19, scal, "DotProduct() wrong result");
+
 		// TC03: parallel vectors same length:
 		scal = v1.dotProduct(v1);
 		assertEquals(18, scal, "DotProduct() wrong result");
+
 		// TC04: parallel vectors different length:
 		v1 = new Vector(1, 2, 3);
 		v3 = new Vector(2, 4, 6);
 		scal = v1.dotProduct(v3);
 		assertEquals(28, scal, "DotProduct() wrong result");
+
 		// TC05: opposite direction different length:
 		v3 = new Vector(-2, -4, -6);
 		scal = v1.dotProduct(v3);
 		assertEquals(-28, scal, "DotProduct() wrong result");
+
 		// TC06: opposite direction same length:
 		v3 = new Vector(-1, -2, -3);
 		scal = v1.dotProduct(v3);
-		assertEquals(-14, scal, "DotProduct() wrong result");
+		assertEquals(-14, scal, 0.0000001, "DotProduct() wrong result");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: orthogonal vectors:
 		v2 = new Vector(0, 3, -2);
 		scal = v1.dotProduct(v2);
-		assertTrue(isZero(scal), "Add() wrong result");
+		assertEquals(scal, 0, 0.00000001, "Add() wrong result");
 	}
 
 	/**
@@ -137,15 +144,17 @@ class VectorTests {
 	@Test
 	public void testCrossProduct() {
 		Vector v1 = new Vector(1, 2, 3);
-		// ============ Equivalence Partitions Tests ==============
 		Vector v2 = new Vector(0, 3, -2);
 		Vector vr = v1.crossProduct(v2);
+		// ============ Equivalence Partitions Tests ==============
 		// TC01: Test that length of cross-product is proper (orthogonal vectors taken
 		// for simplicity)
 		assertEquals(v1.length() * v2.length(), vr.length(), 0.00001, "crossProduct() wrong result length");
+
 		// TC02: Test cross-product result orthogonality to its operands
-		assertTrue(isZero(vr.dotProduct(v1)), "crossProduct() result is not orthogonal to 1st operand");
-		assertTrue(isZero(vr.dotProduct(v2)), "crossProduct() result is not orthogonal to 2nd operand");
+		assertEquals(vr.dotProduct(v1), 0, 0.00000001, "crossProduct() result is not orthogonal to 1st operand");
+		assertEquals(vr.dotProduct(v2), 0, 0.00000001, "crossProduct() result is not orthogonal to 2nd operand");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: test zero vector from cross-productof co-lined vectors
 		Vector v3 = new Vector(-2, -4, -6);
@@ -159,7 +168,7 @@ class VectorTests {
 	@Test
 	void testLengthSquared() {
 		// ============ Equivalence Partitions Tests ==============
-		// test the squared distance
+		// TC01: test the squared distance
 		Vector v = new Vector(1, 2, 3);
 		assertEquals(14, v.lengthSquared(), "lengthSquared() wrong value");
 	}
@@ -170,7 +179,7 @@ class VectorTests {
 	@Test
 	void testLength() {
 		// ============ Equivalence Partitions Tests ==============
-		// test the distance
+		// TC01: test the distance
 		assertEquals(new Vector(0, 3, 4).length(), 5, "length() wrong value");
 	}
 

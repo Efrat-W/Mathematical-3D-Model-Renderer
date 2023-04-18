@@ -30,6 +30,7 @@ class PointTests {
 		Point p2 = new Point(2, 3, 7);
 		Vector pr = new Vector(-1, -1, -4);
 		assertEquals(pr, p1.subtract(p2), "Subtract() is wrong.");
+
 		// =============== Boundary Values Tests ==================
 		// TC11: subtract same value
 		assertThrows(IllegalArgumentException.class, () -> p1.subtract(new Point(1, 2, 3)),

@@ -1,10 +1,11 @@
 package primitives;
 
-/*
-* Class Point is the basic class representing a Point of Euclidean geometry in Cartesian
-* 3-Dimensional coordinate system.
-* @author Efrat Wexler and Sari Zilberlicht
-*/
+/**
+ * Class Point is the basic class representing a Point of Euclidean geometry in
+ * Cartesian 3-Dimensional coordinate system.
+ * 
+ * @author Efrat Wexler and Sari Zilberlicht
+ */
 public class Point {
 	final Double3 xyz;
 

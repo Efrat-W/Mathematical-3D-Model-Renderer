@@ -1,26 +1,27 @@
 package geometries;
 
-/*
-* Class RadialGeometry is an abstract class representing radial
-* geometries in Cartesian 3-Dimensional coordinate system.
-* @author Efrat Wexler and Sari Zilberlicht
-*/
+/**
+ * Class RadialGeometry is an abstract class representing radial geometries in
+ * Cartesian 3-Dimensional coordinate system.
+ * 
+ * @author Efrat Wexler and Sari Zilberlicht
+ */
 
 public abstract class RadialGeometry implements Geometry {
 
-    /*
-     * the radius of the radial geometry
-     */
-    protected final double radius;
+	/*
+	 * the radius of the radial geometry
+	 */
+	protected final double radius;
 
-    /**
-     * Radial Geometry constructor that sets the radius
-     * 
-     * @param r radius
-     */
-    public RadialGeometry(double r) {
-	// if (r <= 0)
-	// throw new IllegalArgumentException("radius has to be of positive value");
-	radius = r;
-    }
+	/**
+	 * Radial Geometry constructor that sets the radius
+	 * 
+	 * @param r radius
+	 */
+	public RadialGeometry(double r) {
+		// if (r <= 0)
+		// throw new IllegalArgumentException("radius has to be of positive value");
+		radius = r;
+	}
 }
