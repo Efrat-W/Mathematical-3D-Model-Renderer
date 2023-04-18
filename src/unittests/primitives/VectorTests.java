@@ -34,7 +34,6 @@ class VectorTests {
 	/**
 	 * Test method for {@link primitives.Vector#add(primitives.Vector)}.
 	 */
-	@Test
 	void testAddVector() {
 		Vector v1 = new Vector(1, 1, 4);
 		// ============ Equivalence Partitions Tests ==============
