@@ -42,4 +42,12 @@ class TriangleTests {
 			assertEquals(result.dotProduct(pts[i].subtract(pts[i == 0 ? 2 : i - 1])), 0, 0.00000001,
 					"Triangle's normal is not orthogonal to one of the edges");
 	}
+
+	/**
+	 * Test method for
+	 * {@link geometries.Triangle#findIntersections(primitives.Ray)}.
+	 */
+	@Test
+	public void testFindIntersections() {
+	}
 }

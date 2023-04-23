@@ -72,5 +72,13 @@ class CylinderTests {
 		assertEquals(1, result3.length(), 0.00000001, "Cylinder's normal is not a unit vector");
 
 	}
+	
+	/**
+	 * Test method for {@link geometries.Cylinder#findIntersections(primitives.Ray)}.
+	 */
+	 @Test
+	 public void testFindIntersections() {
+	 }
+	 }
 
 }

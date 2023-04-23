@@ -9,7 +9,7 @@ import primitives.Vector;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public interface Geometry {
+public interface Geometry extends Intersectable {
 
 	/**
 	 * get normal vector, perpendicular at the point

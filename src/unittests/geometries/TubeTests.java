@@ -47,4 +47,10 @@ class TubeTests {
 		assertEquals(1, n2.length(), 0.00000001, "Tube's normal is not a unit vector");
 	}
 
+	/**
+	 * Test method for {@link geometries.Tube#findIntersections(primitives.Ray)}.
+	 */
+	@Test
+	public void testFindIntersections() {
+	}
 }

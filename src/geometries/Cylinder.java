@@ -6,6 +6,8 @@ import primitives.Vector;
 
 import static primitives.Util.isZero;
 
+import java.util.List;
+
 /**
  * Class Cylinder is the basic class representing a cylinder in Cartesian
  * 3-Dimensional coordinate system.
@@ -49,6 +51,11 @@ public class Cylinder extends Tube {
 			return v;
 		Point o = p0.add(v.scale(t));
 		return p.subtract(o).normalize();
+	}
+
+	@Override
+	public List<Point> findIntsersections(Ray ray) {
+		return null;
 	}
 
 	@Override

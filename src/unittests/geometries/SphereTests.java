@@ -34,4 +34,11 @@ class SphereTests {
 		assertEquals(1, n.length(), 0.00000001, "Sphere's normal is not a unit vector");
 	}
 
+	/**
+	 * Test method for {@link geometries.Sphere#findIntersections(primitives.Ray)}.
+	 */
+	@Test
+	public void testFindIntersections() {
+	}
+
 }
