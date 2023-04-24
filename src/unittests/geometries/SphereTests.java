@@ -54,9 +54,9 @@ class SphereTests {
 	    assertEquals(List.of(p1, p2), result, "Ray crosses sphere");
 	    
 	    // TC03: Ray starts inside the sphere (1 point)
-	    Point p3 = new Point(1.7, 0.11, 0.7);
+	    Point p3 = new Point(2, 0, 0);
 	    List<Point> result2 = sphere.findIntersections(new Ray(new Point(1.5, -0.5, 0),
-		    new Vector(0.2, 0.61, 0.7)));
+		    new Vector(0.5, 0.5, 0)));
 	    assertEquals(1, result2.size(), "Wrong number of points");
 	    assertEquals(p3, result2.get(0), "Ray crosses sphere from inside incorrectly.");
 	    
@@ -93,9 +93,9 @@ class SphereTests {
 	    assertEquals(List.of(p5, p6), result4, "Ray crosses sphere");
 	    
 	    // TC14: Ray starts at sphere and goes inside (1 points)
-	    Point p7 = new Point(1, -1, 0);
+	    Point p7 = new Point(2, 0, 0);
 	    List<Point> result5 = sphere.findIntersections(new Ray(new Point(1,-1,0),
-		    new Vector(0,1,0)));
+		    new Vector(1,1,0)));
 	    assertEquals(1, result5.size(), "Wrong number of points");
 	    assertEquals(p7, result5.get(0), "Ray crosses sphere from inside incorrectly.");
 	    
