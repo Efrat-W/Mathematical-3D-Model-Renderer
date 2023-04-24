@@ -79,6 +79,5 @@ class CylinderTests {
 	 @Test
 	 public void testFindIntersections() {
 	 }
-	 }
 
 }
