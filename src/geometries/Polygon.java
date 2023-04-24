@@ -85,8 +85,49 @@ public class Polygon implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		return null;
-	}
+		for (int i = 0; i < vertices.size(); ++i){
+            if(ray.getPoint().equals(this.vertices.get(i)))
+                return null;
+        }
+        Vector [] v1ToVn = new Vector[this.vertices.size()];
+        for (int i = 0; i < vertices.size(); ++i) {
+        v1ToVn[i] = this.vertices.get(i).subtract(ray.get_point());
+        }
+        for (int i = 0; i < v1ToVn.length; ++i){
+            if(v1ToVn[i].isParallel(v1ToVn[(i + 1) % v1ToVn.length]))
+                return null;
+        }
+        Vector [] N1ToNn = new Vector[this.vertices.size()];
+        for (int i = 0; i < vertices.size(); ++i) {
+            N1ToNn[i] = v1ToVn[i].crossProduct(v1ToVn[(i + 1) % v1ToVn.length]).normalize();
+        }
+        double [] vn1ToVNn = new double[this.vertices.size()];
+        for (int i = 0; i < vertices.size(); ++i) {
+            vn1ToVNn[i] = ray.get_vector().dotProduct(N1ToNn[i]);
+        }
+        for (int i = 0; i < vertices.size(); ++i){
+            if(isZero(vn1ToVNn[i]))
+                return null;
+        }
+        boolean isAllPositive = true,
+        isAllNegative = true;
+        for (int i = 0; i < vertices.size(); ++i){
+            if(vn1ToVNn[i] < 0 && isAllPositive)
+                isAllPositive = false;
+        }
+        for (int i = 0; i < vertices.size(); ++i){
+            if(vn1ToVNn[i] > 0 && isAllNegative)
+                isAllNegative = false;
+        }
+        List<GeoPoint> Intersections = null;
+        if(isAllNegative || isAllPositive){
+            Intersections = this.plane.findIntersections(ray, max);
+            for (int i = 0; i < Intersections.size(); i++)
+                Intersections.get(i).geometry = this;
+            return Intersections;
+        }
+        return null;
+    }
 
 	@Override
 	public Vector getNormal(Point point) {
