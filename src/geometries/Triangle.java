@@ -45,10 +45,8 @@ public class Triangle extends Polygon {
         if(isZero(vn1) || isZero(vn2) || isZero(vn3))
             return null;
         
-        List<Point> intersections= this.plane.findIntersections(ray);
-        
         if((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
-            return intersections;
+            return this.plane.findIntersections(ray);
         }
         return null;
     }
