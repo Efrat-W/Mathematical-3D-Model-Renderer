@@ -61,16 +61,16 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		  if(ray.getPoint().equals(this.q0))
-	            return null;
-	        double Numerator = this.normal.dotProduct(this.q0.subtract(ray.getPoint()));
-	        double denominator = this.normal.dotProduct(ray.getDir());
-	        if(isZero(Numerator) || isZero(denominator))
-	            return null;
-	        double t = Numerator / denominator;
-	        if(t <= 0 )
-	            return null;
-	        return List.of(ray.getPoint(t));
+		if (ray.getPoint().equals(this.q0))
+			return null;
+		double Numerator = this.normal.dotProduct(this.q0.subtract(ray.getPoint()));
+		double denominator = this.normal.dotProduct(ray.getDir());
+		if (isZero(Numerator) || isZero(denominator))
+			return null;
+		double t = Numerator / denominator;
+		if (t <= 0)
+			return null;
+		return List.of(ray.getPoint(t));
 	}
 
 	@Override

@@ -89,31 +89,30 @@ class PolygonTests {
 	public void testFindIntersections() {
 		// ============ Equivalence Partitions Tests ==============
 
-        // TC01: Ray's line is Inside polygon (1 points)
-        Polygon polygon = new Polygon(new Point(-1,0,0), new Point(1,0,0) , new Point(0,1,0));
-        Ray ray1 = new Ray(new Point(0,0.5,-1), new Vector(0,0,1));
-        assertEquals(List.of(new Point(0,0.5,0)) ,polygon.findIntersections(ray1), "Bad intersects to polygon - line is Inside polygon");
-        // TC02: Ray's line is Outside against edge (0 points)
-        Ray ray2 = new Ray(new Point(2,0.5,-1), new Vector(0,0,1));
-        assertEquals(null ,polygon.findIntersections(ray2), "Bad intersects to polygon - line is Outside against edge");
-        // TC03:  Ray's line is Outside against vertex (0 points)
-        Ray ray3 = new Ray(new Point(0,2,-1), new Vector(0,0,1));
-        assertEquals(null ,polygon.findIntersections(ray3),"Bad intersects to polygon - line is Outside against vertex");
+		// TC01: Ray's line is Inside polygon (1 points)
+		Polygon polygon = new Polygon(new Point(-1, 0, 0), new Point(1, 0, 0), new Point(0, 1, 0));
+		Ray ray1 = new Ray(new Point(0, 0.5, -1), new Vector(0, 0, 1));
+		assertEquals(List.of(new Point(0, 0.5, 0)), polygon.findIntersections(ray1),
+				"Bad intersects to polygon - line is Inside polygon");
+		// TC02: Ray's line is Outside against edge (0 points)
+		Ray ray2 = new Ray(new Point(2, 0.5, -1), new Vector(0, 0, 1));
+		assertNull(polygon.findIntersections(ray2), "Bad intersects to polygon - line is Outside against edge");
+		// TC03: Ray's line is Outside against vertex (0 points)
+		Ray ray3 = new Ray(new Point(0, 2, -1), new Vector(0, 0, 1));
+		assertNull(polygon.findIntersections(ray3), "Bad intersects to polygon - line is Outside against vertex");
 
-        // =============== Boundary Values Tests ==================
+		// =============== Boundary Values Tests ==================
 
-        // TC11: Ray's line is On edge (0 points)
-        Ray ray4 = new Ray(new Point(0.5,0,-1), new Vector(0,0,1));
-        assertEquals(null ,polygon.findIntersections(ray4), "Bad intersects to polygon - line is On edge");
-        // TC12: Ray's line is In vertex (0 points)
-        Ray ray5 = new Ray(new Point(0,1,-1), new Vector(0,0,1));
-        assertEquals(null ,polygon.findIntersections(ray5),"Bad intersects to polygon - line is In vertex");
-        // TC13: Ray's line is On edge's continuation (0 points)
-        Ray ray6 = new Ray(new Point(2,0,-1), new Vector(0,0,1));
-        assertEquals(null ,polygon.findIntersections(ray6), "Bad intersects to polygon - line is On edge's continuation");
+		// TC11: Ray's line is On edge (0 points)
+		Ray ray4 = new Ray(new Point(0.5, 0, -1), new Vector(0, 0, 1));
+		assertNull(polygon.findIntersections(ray4), "Bad intersects to polygon - line is On edge");
+		// TC12: Ray's line is In vertex (0 points)
+		Ray ray5 = new Ray(new Point(0, 1, -1), new Vector(0, 0, 1));
+		assertNull(polygon.findIntersections(ray5), "Bad intersects to polygon - line is In vertex");
+		// TC13: Ray's line is On edge's continuation (0 points)
+		Ray ray6 = new Ray(new Point(2, 0, -1), new Vector(0, 0, 1));
+		assertNull(polygon.findIntersections(ray6), "Bad intersects to polygon - line is On edge's continuation");
 
-
-
-    }
+	}
 
 }

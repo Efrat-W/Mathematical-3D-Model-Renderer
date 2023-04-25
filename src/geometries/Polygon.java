@@ -85,46 +85,44 @@ public class Polygon implements Geometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-		for (int i = 0; i < vertices.size(); ++i){
-            if(ray.getPoint().equals(this.vertices.get(i)))
-                return null;
-        }
-        Vector [] v1ToVn = new Vector[this.vertices.size()];
-        for (int i = 0; i < vertices.size(); ++i) {
-        v1ToVn[i] = this.vertices.get(i).subtract(ray.getPoint());
-        }
-        Vector [] N1ToNn = new Vector[this.vertices.size()];
-        try {
-        for (int i = 0; i < vertices.size(); ++i) {
-            N1ToNn[i] = v1ToVn[i].crossProduct(v1ToVn[(i + 1) % v1ToVn.length]).normalize();
-        }
-        }
-        catch (IllegalArgumentException e) {
+		for (int i = 0; i < vertices.size(); ++i) {
+			if (ray.getPoint().equals(this.vertices.get(i)))
+				return null;
+		}
+		Vector[] v1ToVn = new Vector[this.vertices.size()];
+		for (int i = 0; i < vertices.size(); ++i) {
+			v1ToVn[i] = this.vertices.get(i).subtract(ray.getPoint());
+		}
+		Vector[] N1ToNn = new Vector[this.vertices.size()];
+		try {
+			for (int i = 0; i < vertices.size(); ++i) {
+				N1ToNn[i] = v1ToVn[i].crossProduct(v1ToVn[(i + 1) % v1ToVn.length]).normalize();
+			}
+		} catch (IllegalArgumentException e) {
 			return null;
-        }
-        double [] vn1ToVNn = new double[this.vertices.size()];
-        for (int i = 0; i < vertices.size(); ++i) {
-            vn1ToVNn[i] = ray.getDir().dotProduct(N1ToNn[i]);
-        }
-        for (int i = 0; i < vertices.size(); ++i){
-            if(isZero(vn1ToVNn[i]))
-                return null;
-        }
-        boolean isAllPositive = true,
-        isAllNegative = true;
-        for (int i = 0; i < vertices.size(); ++i){
-            if(vn1ToVNn[i] < 0 && isAllPositive)
-                isAllPositive = false;
-        }
-        for (int i = 0; i < vertices.size(); ++i){
-            if(vn1ToVNn[i] > 0 && isAllNegative)
-                isAllNegative = false;
-        }
-        if(isAllNegative || isAllPositive){
-            return this.plane.findIntersections(ray);
-        }
-        return null;
-    }
+		}
+		double[] vn1ToVNn = new double[this.vertices.size()];
+		for (int i = 0; i < vertices.size(); ++i) {
+			vn1ToVNn[i] = ray.getDir().dotProduct(N1ToNn[i]);
+		}
+		for (int i = 0; i < vertices.size(); ++i) {
+			if (isZero(vn1ToVNn[i]))
+				return null;
+		}
+		boolean isAllPositive = true, isAllNegative = true;
+		for (int i = 0; i < vertices.size(); ++i) {
+			if (vn1ToVNn[i] < 0 && isAllPositive)
+				isAllPositive = false;
+		}
+		for (int i = 0; i < vertices.size(); ++i) {
+			if (vn1ToVNn[i] > 0 && isAllNegative)
+				isAllNegative = false;
+		}
+		if (isAllNegative || isAllPositive) {
+			return this.plane.findIntersections(ray);
+		}
+		return null;
+	}
 
 	@Override
 	public Vector getNormal(Point point) {
