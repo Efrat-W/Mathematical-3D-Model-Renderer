@@ -3,7 +3,6 @@ package geometries;
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import primitives.Point;

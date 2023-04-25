@@ -9,6 +9,11 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+/**
+ * Unit tests for geometries.Geometries class
+ * 
+ * @author Efrat Wexler and Sari Zilberlicht
+ */
 class GeomtriesTests {
 
 	/**
