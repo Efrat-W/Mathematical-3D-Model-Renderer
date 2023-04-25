@@ -65,80 +65,15 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public List<Point> findIntersections(Ray ray) {
-//		Point rayPoint = ray.getPoint();
-//		Vector rayVector = ray.getDir(),
-//				axisRayVector = axisRay.getDir(), temp1, temp2;
-//		if(ray.equals(axisRay)||(rayPoint.equals(axisRay.getPoint())&& rayVector.equals(axisRayVector.scale(-1))))
-//			return null;
-//		
-//		Vector deltaPoints=rayPoint.subtract(axisRay.getPoint());
-//		
-//		try {
-//			rayVector.crossProduct(axisRayVector);
-//		}
-//		catch (IllegalArgumentException e) {
-//			return null;
-//
-//		}// 0 Intersections
-//		
-//		if (deltaPoints.dotProduct(axisRayVector) == 0) // 0 Intersections
-//			return null;
-//		double dot1 = rayVector.dotProduct(axisRayVector),
-//			   dot2 = deltaPoints.dotProduct(axisRayVector);
-//
-//		temp1 = dot1 != 0 ? rayVector.subtract(axisRayVector.scale(dot1)) : rayVector;
-//		temp2 = deltaPoints.subtract(axisRayVector.scale(dot2));
-//
-//		double A = temp1.dotProduct(temp1);
-//		double B = dot1 != 0
-//				? 2 * rayVector.subtract(axisRayVector.scale(dot1))
-//						.dotProduct(deltaPoints.subtract(axisRayVector.scale(dot2)))
-//				: 2 * rayVector.dotProduct(deltaPoints.subtract(axisRayVector.scale(dot2)));
-//		double C = temp2.dotProduct(temp2) - radius * radius;
-//		double delta = B * B - 4 * A * C;
-//
-//		if (delta < 0) {// 0 Intersections
-//			return null;
-//		}
-//		double t1 = (-B + Math.sqrt(delta)) / (2 * A), 
-//			   t2 = (-B - Math.sqrt(delta)) / (2 * A);
-//
-//		if(t1==0||t2==0)
-//			return null;
-//		
-////		Point p1=rayPoint.add(rayVector.scale(t1));
-////		Point p2=rayPoint.add(rayVector.scale(t2));
-//
-//		if (delta == 0) {
-//			return null;
-////			if (-B / (2 * A) < 0 )
-////				return null;
-////			return List.of(rayPoint.add(rayVector.scale(-B / (2 * A))));// 1
-////			
-//		} else if (t1 < 0 && t2 < 0) {
-//			return null;
-//			
-//		} else if (t1 < 0 && t2 > 0 ) {
-//			return List.of(rayPoint.add(rayVector.scale(t2)));
-//		} else if (t1 > 0 && t2 < 0) {
-//			return List.of(rayPoint.add(rayVector.scale(t1)));
-//
-//		} else
-//			return List.of(rayPoint.add(rayVector.scale(t1)),rayPoint.add(rayVector.scale(t2)));
+		Point d, e;
+		double dis, ab ,bc, ac;
 
-		Point d;
-		Point e;
-		double dis;
-		double ab;
-
-		// Given ray (A + ta)
-		Point pointA = ray.getPoint();
-		Vector vectorA = ray.getDir();
-		// Tube ray (B + tb)
-		Point pointB = axisRay.getPoint();
-		Vector vectorB = axisRay.getDir();
+		// Given ray (A + ta) and this Tube ray (B + tb)
+		Point pointA = ray.getPoint(), pointB = axisRay.getPoint();
+		Vector vectorA = ray.getDir(), vectorB = axisRay.getDir();
 
 		ab = vectorA.dotProduct(vectorB);
+		
 		// if is parallel to tube
 		try {
 			vectorA.crossProduct(vectorB);
@@ -148,7 +83,6 @@ public class Tube extends RadialGeometry {
 
 		double bb = 1; // it is a unit vector therefore it's squared size is 1
 		double aa = 1;
-		double bc, ac;
 		try {
 			// Vector AB
 			Vector c = pointB.subtract(pointA);
@@ -157,7 +91,7 @@ public class Tube extends RadialGeometry {
 			ac = vectorA.dotProduct(c);
 
 			// The closest point on (A + t1a)
-			double t1 = (-ab * bc + ac * bb) / (/* aa * bb */ 1 - ab * ab);
+			double t1 = (-ab * bc + ac * bb) / (aa * bb - ab * ab);
 			try {
 				d = pointA.add(vectorA.scale(t1));
 			} catch (IllegalArgumentException ex) {
@@ -190,16 +124,6 @@ public class Tube extends RadialGeometry {
 		// The ray is tangent to the Tube
 		if (diff == 0.0) {
 			return null;
-//			// The ray starts at the point
-//			if (d.equals(pointA)) {
-//				return List.of(d);
-//			}
-//			// The ray starts after the point
-//			if (d.subtract(pointA).dotProduct(vectorA) < 0.0) {
-//				return null;
-//			}
-//			// The ray starts before the point
-//			return List.of(d);
 
 		}
 
