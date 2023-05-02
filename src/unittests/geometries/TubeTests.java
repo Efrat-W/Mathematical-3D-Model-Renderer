@@ -56,13 +56,11 @@ class TubeTests {
 		Tube tube1 = new Tube(new Ray(new Point(0, -1, 0), new Vector(2, 2, 0)), 1);
 		Tube tube = new Tube(new Ray(new Point(0, 2, 0), new Vector(1, 0, 0)), 1);
 		// ============ Equivalence Partitions Tests ==============
-		// TC01: the ray starts from inside, intersects with the tube (1 point)
-		// Point p1 = new Point(1, 0, 1.5);
-		// List<Point> result1 = tube1.findIntersections(new Ray(new Point(1, 1, 0), new
-		// Vector(0, 1, -1.5)));
-		// assertEquals(1, result1.size(), "Wrong number of points");
-		// assertEquals(p1, result1.get(0), "Ray crosses tube from inside
-		// incorrectly.");
+		//TC01: the ray starts from inside, intersects with the tube (1 point)
+		 List<Point> result123 = tube.findIntersections(new Ray(new Point(2,1.5,0.5), new
+		 Vector(2, -1.5, 0.5)));
+		 //assertEquals(1, result1.size(), "Wrong number of points");
+		 assertEquals(new Point(2.4, 1.2, 0.6), result123.get(0), "Ray crosses tube from inside incorrectly.");
 
 		// TC02: the ray starts from outside, intersects with the tube (2 point)
 		Point p2 = new Point(1.4409964637611044, 1.10249115940276, 0.440996463761104);
