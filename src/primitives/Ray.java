@@ -1,6 +1,9 @@
 package primitives;
 
+import static org.junit.Assert.assertNull;
 import static primitives.Util.isZero;
+
+import java.util.List;
 
 /**
  * Class Ray is the basic class representing Ray of Euclidean geometry in
@@ -72,4 +75,21 @@ public class Ray {
 	public Vector getDir() {
 		return dir;
 	}
+	
+	/**
+	 * finds closest point in points of given list to ray head p0
+	 * 
+	 * @return point closest to p0
+	 */
+	public Point findClosestPoint(List<Point> ls) {
+	    if (ls.isEmpty()) return null;
+	    double min = 100000;
+	    Point minPoint = new Point(0,0,0);
+	    for (Point p : ls)
+		if (p0.distance(p) < min) {
+		    min=p0.distance(p);
+		    minPoint = p;}
+	    return minPoint;
+	}
+	
 }
