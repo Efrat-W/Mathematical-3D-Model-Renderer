@@ -84,35 +84,41 @@ class CylinderTests {
     public void testFindIntersections() {
 	Cylinder cylinder = new Cylinder(3, new Ray(new Point(0, -1, 1), new Vector(0, 3, 0)), 1);
 	Point baseApoint = new Point(0.5, -1, 0.5);
-	Point baseBpoint =new Point(0.5, 2, 0.5);
+	Point baseBpoint = new Point(0.5, 2, 0.5);
 	Point p1 = new Point(0, 2, 1); // point on opposite base from axis ray head
 	Point p2 = new Point(0, -1, 1.5); // point on opposite base from axis ray head
 	// ============ Equivalence Partitions Tests ==============
-	// TC01: the ray starts on A base, intersects with the cylinder's B base (1 point)
+	// TC01: the ray starts on A base, intersects with the cylinder's B base (1
+	// point)
 	List<Point> result1a = cylinder.findIntersections(new Ray(baseApoint, new Vector(-0.5, 3, 0.5)));
 	assertEquals(1, result1a.size(), "Wrong number of points");
 	assertEquals(p1, result1a.get(0), "Ray crosses cylinder from inside incorrectly.");
 
-	// TC02: the ray starts from inside, intersects with the cylinder's B base (1 point)
+	// TC02: the ray starts from inside, intersects with the cylinder's B base (1
+	// point)
 	List<Point> result2 = cylinder.findIntersections(new Ray(new Point(0, 0, 0.5), new Vector(0, 2, 0.5)));
 	assertEquals(1, result2.size(), "Wrong number of points");
 	assertEquals(p1, result2.get(0), "Ray crosses cylinder from inside incorrectly.");
-	
-	// TC03: the ray starts from inside, intersects with the cylinder's A base (1 point)
-	//List<Point> result2a = cylinder.findIntersections(new Ray(new Point(0, 1, 0.5), new Vector(0, -2, 1)));
-	//assertEquals(1, result2a.size(), "Wrong number of points");
-	//assertEquals(p2, result2a.get(0), "Ray crosses cylinder from inside incorrectly.");
+
+	// TC03: the ray starts from inside, intersects with the cylinder's A base (1
+	// point)
+	// List<Point> result2a = cylinder.findIntersections(new Ray(new Point(0, 1,
+	// 0.5), new Vector(0, -2, 1)));
+	// assertEquals(1, result2a.size(), "Wrong number of points");
+	// assertEquals(p2, result2a.get(0), "Ray crosses cylinder from inside
+	// incorrectly.");
 
 	// TC04: the ray starts on base, goes outwards (0 points)
 	assertNull(cylinder.findIntersections(new Ray(baseApoint, new Vector(-0.6, -4, -0.5))),
 		"Ray's parallel to cylinder and on top of its surface");
-	
-	// TC05: the ray starts on opposite base from axis ray head, goes outwards (0 points)
+
+	// TC05: the ray starts on opposite base from axis ray head, goes outwards (0
+	// points)
 	assertNull(cylinder.findIntersections(new Ray(baseBpoint, new Vector(-0.5, 2, -0.5))),
 		"Ray's parallel to cylinder and on top of its surface");
 
 	// =============== Boundary Values Tests ==================
-	
+
     }
 
 }
