@@ -13,42 +13,31 @@ import primitives.Ray;
  */
 
 public class Geometries implements Intersectable {
-    private final List<Intersectable> geometries;
+	private final List<Intersectable> geometries = new LinkedList<Intersectable>();
 
-    public Geometries() {
-	geometries = new LinkedList<Intersectable>();
-    }
-
-    public Geometries(Intersectable... geometries) {
-	this.geometries = new LinkedList<Intersectable>();
-	for (Intersectable g : geometries)
-	    this.geometries.add(g);
-    }
-
-    public void add(Intersectable... geometries) {
-	for (Intersectable g : geometries)
-	    this.geometries.add(g);
-    }
-
-    @Override
-    public List<Point> findIntersections(Ray ray) {
-	if (geometries.isEmpty())
-	    return null;
-	boolean flag = false;
-	for (Intersectable g : this.geometries)
-	    if (g.findIntersections(ray) != null) { flag = true; break; }
-	if (!flag)
-	    return null;
-	LinkedList<Point> toReturn = new LinkedList<Point>();
-	List<Point> lPoints = null;
-	for (Intersectable g : this.geometries) {
-	    lPoints = g.findIntersections(ray);
-	    if (lPoints != null) {
-		for (Point p : lPoints)
-		    toReturn.add(p);
-	    }
+	public Geometries() {
 	}
-	return toReturn;
-    }
+
+	public Geometries(Intersectable... geometries) {
+		add(geometries);
+	}
+
+	public void add(Intersectable... geometries) {
+		this.geometries.addAll(List.of(geometries));
+	}
+
+	@Override
+	public List<Point> findIntersections(Ray ray) {
+		List<Point> toReturn = null;
+		for (Intersectable g : this.geometries) {
+			var lPoints = g.findIntersections(ray);
+			if (lPoints != null) {
+				if (toReturn == null)
+					toReturn = new LinkedList<>();
+				toReturn.addAll(lPoints);
+			}
+		}
+		return toReturn;
+	}
 
 }

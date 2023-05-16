@@ -9,19 +9,33 @@ package geometries;
 
 public abstract class RadialGeometry implements Geometry {
 
-    /*
-     * the radius of the radial geometry
-     */
-    protected final double radius;
+	/**
+	 * the radius of the radial geometry
+	 */
+	protected final double radius;
+	/**
+	 * the squared radius of the radial geometry
+	 */
+	protected final double radiusSquared;
 
-    /**
-     * Radial Geometry constructor that sets the radius
-     * 
-     * @param r radius
-     */
-    public RadialGeometry(double r) {
-	// if (r <= 0)
-	// throw new IllegalArgumentException("radius has to be of positive value");
-	radius = r;
-    }
+	/**
+	 * Get radius of sphere
+	 * 
+	 * @return radius
+	 */
+	public double getRadius() {
+		return radius;
+	}
+
+	/**
+	 * Radial Geometry constructor that sets the radius
+	 * 
+	 * @param r radius
+	 */
+	public RadialGeometry(double r) {
+		// if (r <= 0)
+		// throw new IllegalArgumentException("radius has to be of positive value");
+		radius = r;
+		radiusSquared = r * r;
+	}
 }
