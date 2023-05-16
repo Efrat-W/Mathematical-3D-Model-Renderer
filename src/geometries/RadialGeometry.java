@@ -7,7 +7,7 @@ package geometries;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 
     /*
      * the radius of the radial geometry

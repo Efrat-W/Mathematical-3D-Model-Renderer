@@ -12,7 +12,7 @@ import primitives.Ray;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
     private final List<Intersectable> geometries;
 
     public Geometries() {
@@ -51,4 +51,24 @@ public class Geometries implements Intersectable {
 	return toReturn;
     }
 
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	if (geometries.isEmpty())
+	    return null;
+	boolean flag = false;
+	for (Intersectable g : this.geometries)
+	    if (g.findIntersections(ray) != null) { flag = true; break; }
+	if (!flag)
+	    return null;
+	LinkedList<Point> toReturn = new LinkedList<Point>();
+	List<Point> lPoints = null;
+	for (Intersectable g : this.geometries) {
+	    lPoints = g.findIntersections(ray);
+	    if (lPoints != null) {
+		for (Point p : lPoints)
+		    toReturn.add(p);
+	    }
+	}
+	return toReturn;
+    }
 }
