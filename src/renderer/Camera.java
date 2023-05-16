@@ -100,7 +100,7 @@ public class Camera {
 		// the vectors aren't orthogonal:
 		if (!isZero(vu.dotProduct(vt)))
 			throw new IllegalArgumentException();
-		
+
 		cameraPoint = p;
 		vUp = vu.normalize();
 		vTo = vt.normalize();
@@ -156,10 +156,10 @@ public class Camera {
 	/**
 	 * create a ray through the center of the pixel
 	 * 
-	 * @param nX       number of columns
-	 * @param nY       number of rows
-	 * @param j        pixel's column
-	 * @param i	       pixel's row
+	 * @param nX number of columns
+	 * @param nY number of rows
+	 * @param j  pixel's column
+	 * @param i  pixel's row
 	 * @return the ray we created
 	 */
 	public Ray constructRay(int nX, int nY, int j, int i) {

@@ -60,7 +60,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		if (ray.getPoint().equals(this.q0))
 			return null;
 		double Numerator = this.normal.dotProduct(this.q0.subtract(ray.getPoint()));
@@ -68,7 +68,7 @@ public class Plane extends Geometry {
 		if (isZero(Numerator) || isZero(denominator))
 			return null;
 		double t = Numerator / denominator;
-		return alignZero(t) <= 0 ? null : List.of(ray.getPoint(t));
+		return alignZero(t) <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 	}
 
 	@Override

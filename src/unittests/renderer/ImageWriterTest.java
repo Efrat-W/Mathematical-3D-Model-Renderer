@@ -26,11 +26,11 @@ class ImageWriterTest {
 		final int height = 501;
 		final int interval = 50;
 		ImageWriter imageWriter = new ImageWriter("img1", width, height);
-		
+
 		Color color = new Color(0, 191, 255);
 		for (int x = 0; x < width; x++)
 			for (int y = 0; y < height; y++)
-					imageWriter.writePixel(x, y, x % interval == 0 || y % interval == 0 ? color : Color.BLACK);
+				imageWriter.writePixel(x, y, x % interval == 0 || y % interval == 0 ? color : Color.BLACK);
 		imageWriter.writeToImage();
 	}
 

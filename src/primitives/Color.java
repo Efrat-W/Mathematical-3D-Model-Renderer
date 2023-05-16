@@ -143,11 +143,11 @@ public class Color {
 	}
 
 	@Override
-    public boolean equals(Object obj) {
-    	if (this == obj)
-    	    return true;
-    	if (obj instanceof Color other)
-    		return rgb.equals(((Color) obj).rgb);
-    	return false;
-        }
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj instanceof Color other)
+			return rgb.equals(((Color) obj).rgb);
+		return false;
+	}
 }
