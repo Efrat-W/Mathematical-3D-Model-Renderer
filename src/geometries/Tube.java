@@ -49,9 +49,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		Point d, e;
-		double dis, ab, bc, ac;
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 
 		// Given ray (A + ta) and this Tube ray (B + tb)
 		Point pointA = ray.getPoint();
@@ -59,8 +57,9 @@ public class Tube extends RadialGeometry {
 		Vector vectorA = ray.getDir();
 		Vector vectorB = axisRay.getDir();
 
-		ab = vectorA.dotProduct(vectorB);
-
+		double ab = vectorA.dotProduct(vectorB);
+		Point d;
+		double dis;
 		// if is parallel to tube
 		try {
 			vectorA.crossProduct(vectorB);
@@ -74,8 +73,8 @@ public class Tube extends RadialGeometry {
 			// Vector AB
 			Vector c = pointB.subtract(pointA);
 			// dot-product calc
-			bc = vectorB.dotProduct(c);
-			ac = vectorA.dotProduct(c);
+			double bc = vectorB.dotProduct(c);
+			double ac = vectorA.dotProduct(c);
 
 			// The closest point on (A + t1a)
 			double t1 = (-ab * bc + ac * bb) / (aa * bb - ab * ab);
@@ -87,7 +86,7 @@ public class Tube extends RadialGeometry {
 
 			// The closest point on (B + t2b)
 			double t2 = (ab * ac - bc * aa) / (/* aa * bb */ 1 - ab * ab);
-
+			Point e;
 			try {
 				e = pointB.add(vectorB.scale(t2));
 			} catch (IllegalArgumentException ex) {
@@ -131,14 +130,15 @@ public class Tube extends RadialGeometry {
 		double th = Math.sqrt(radius * radius - dis * dis) * k;
 
 		// the two points
-		Point p1 = d.subtract(vectorA.scale(th));
-		Point p2 = d.add(vectorA.scale(th));
+		GeoPoint p1 = new GeoPoint(this, d.subtract(vectorA.scale(th)));
+		GeoPoint p2 = new GeoPoint(this, d.add(vectorA.scale(th)));
 
 		// Check if the points are in range and return them
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.subtract(pointA).dotProduct(vectorA) < 0.0) && !(p2.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0)
+					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
 				return List.of(p1, p2);
 			}
 		} catch (IllegalArgumentException ex) {
@@ -148,17 +148,16 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
 				return List.of(p1);
 			}
 		} catch (IllegalArgumentException ex) {
 			// the ray starts at point1
-
 		}
 
 		try {
 			// the ray starts before point 2
-			if (!(p2.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
 				return List.of(p2);
 			}
 		} catch (IllegalArgumentException ex) {

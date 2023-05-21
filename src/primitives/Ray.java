@@ -1,7 +1,7 @@
 package primitives;
 
-import static org.junit.Assert.assertNull;
 import static primitives.Util.isZero;
+import geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -80,14 +80,25 @@ public class Ray {
 	 * @param ls list of points on the ray
 	 * @return point closest to p0
 	 */
-	public Point findClosestPoint(List<Point> ls) {
+	public Point findClosestPoint(List<Point> points) {
+		return points == null || points.isEmpty() ? null
+				: findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+	}
+
+	/**
+	 * finds closest GeoPoint in GeoPoints of given list to ray head p0
+	 * 
+	 * @param ls list of GeoPoints on the ray
+	 * @return GeoPoint closest to p0
+	 */
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> ls) {
 		if (ls == null)
 			return null;
 
 		double min = Double.POSITIVE_INFINITY;
-		Point minPoint = null;
-		for (Point p : ls) {
-			double dist = p0.distance(p);
+		GeoPoint minPoint = null;
+		for (GeoPoint p : ls) {
+			double dist = p0.distance(p.point);
 			if (dist < min) {
 				min = dist;
 				minPoint = p;
@@ -95,5 +106,4 @@ public class Ray {
 		}
 		return minPoint;
 	}
-
 }

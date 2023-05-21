@@ -21,6 +21,13 @@ import renderer.Camera;
  */
 class IntegrationTests {
 
+	/**
+	 * returns the number of intersections
+	 * 
+	 * @param shape the shape we intersect
+	 * @param c     the camera
+	 * @return number of intersections
+	 */
 	int numIntersections(Intersectable shape, Camera c) {
 		int num = 0;
 		for (int i = 0; i < 3; i++)

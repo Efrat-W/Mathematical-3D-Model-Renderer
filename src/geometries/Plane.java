@@ -63,11 +63,11 @@ public class Plane extends Geometry {
 	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		if (ray.getPoint().equals(this.q0))
 			return null;
-		double Numerator = this.normal.dotProduct(this.q0.subtract(ray.getPoint()));
+		double numerator = this.normal.dotProduct(this.q0.subtract(ray.getPoint()));
 		double denominator = this.normal.dotProduct(ray.getDir());
-		if (isZero(Numerator) || isZero(denominator))
+		if (isZero(numerator) || isZero(denominator))
 			return null;
-		double t = Numerator / denominator;
+		double t = numerator / denominator;
 		return alignZero(t) <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 	}
 

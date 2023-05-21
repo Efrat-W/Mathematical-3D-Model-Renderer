@@ -188,8 +188,8 @@ public class Camera {
 	 * @param row row number in View Plane
 	 * @return
 	 */
-	private Color castRay(int col, int row) {
-		return rayTracerBase.traceRay(constructRay(imgWriter.getNx(), imgWriter.getNy(), col, row));
+	private Color castRay(int col, int row, int nx, int ny) {
+		return rayTracerBase.traceRay(constructRay(nx, ny, col, row));
 	}
 
 	/**
@@ -199,9 +199,11 @@ public class Camera {
 		if (cameraPoint == null || vRight == null || vUp == null || vTo == null || imgWriter == null
 				|| rayTracerBase == null)
 			throw new MissingResourceException("missing filed in camera", "", "");
-		for (int x = 0; x < imgWriter.getNx(); x++) {
-			for (int y = 0; y < imgWriter.getNy(); y++) {
-				imgWriter.writePixel(x, y, castRay(x, y));
+		int nx = imgWriter.getNx();
+		int ny = imgWriter.getNy();
+		for (int x = 0; x < nx; x++) {
+			for (int y = 0; y < ny; y++) {
+				imgWriter.writePixel(x, y, castRay(x, y, nx, ny));
 			}
 		}
 	}
@@ -215,8 +217,10 @@ public class Camera {
 	public void printGrid(int interval, Color color) {
 		if (imgWriter == null)
 			throw new MissingResourceException("missing filed in camera", "", "");
-		for (int x = 0; x < imgWriter.getNx(); x++) {
-			for (int y = 0; y < imgWriter.getNy(); y++) {
+		int nx = imgWriter.getNx();
+		int ny = imgWriter.getNy();
+		for (int x = 0; x < nx; x++) {
+			for (int y = 0; y < ny; y++) {
 				if (x % interval == 0 || y % interval == 0)
 					imgWriter.writePixel(x, y, color);
 			}

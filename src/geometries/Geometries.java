@@ -17,16 +17,30 @@ import primitives.Ray;
 public class Geometries extends Intersectable {
 	private final List<Intersectable> geometries;
 
+	/**
+	 * a default constructor
+	 */
 	public Geometries() {
 		geometries = new LinkedList<Intersectable>();
 	}
 
+	/**
+	 * constructor that gets several intersectables and add them to the geometries
+	 * list
+	 * 
+	 * @param geometries geometries to add to list
+	 */
 	public Geometries(Intersectable... geometries) {
 		this.geometries = new LinkedList<Intersectable>();
 		for (Intersectable g : geometries)
 			this.geometries.add(g);
 	}
 
+	/**
+	 * adds geometries to the list
+	 * 
+	 * @param geometries the geomtries to add
+	 */
 	public void add(Intersectable... geometries) {
 		for (Intersectable g : geometries)
 			this.geometries.add(g);

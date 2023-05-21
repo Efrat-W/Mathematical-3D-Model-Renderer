@@ -12,7 +12,9 @@ import primitives.Vector;
  */
 
 public abstract class Geometry extends Intersectable {
-	/* emission light of the shapes */
+	/**
+	 * emission light of the shapes
+	 */
 	protected Color emission = Color.BLACK;
 
 	/**

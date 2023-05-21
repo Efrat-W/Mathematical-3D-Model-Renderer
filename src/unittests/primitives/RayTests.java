@@ -43,4 +43,25 @@ class RayTests {
 		assertEquals(p1, ray.findClosestPoint(List.of(p2, p3, p1)), "wrong closest point");
 	}
 
+	/**
+	 * Test method for {@link primitives.Ray#getPoint(double t)}.
+	 */
+
+	@Test
+	void getPointTest() {
+		Point p0 = new Point(0, 0, 1);
+		Ray ray = new Ray(p0, new Vector(0, 1, 0));
+		// ============ Equivalence Partitions Tests ==============
+		// TC01: t>0
+		assertEquals(new Point(0, 2, 1), ray.getPoint(2), "wrong point");
+
+		// TC02: t<0
+		assertEquals(new Point(0, -2, 1), ray.getPoint(-2), "wrong point");
+
+		// =============== Boundary Values Tests ==================
+		// TC11: t=0
+		assertEquals(p0, ray.getPoint(0), "wrong point");
+
+	}
+
 }

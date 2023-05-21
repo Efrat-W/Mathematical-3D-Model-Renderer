@@ -86,7 +86,8 @@ class CylinderTests {
 		Point baseApoint = new Point(0.5, -1, 0.5);
 		Point baseBpoint = new Point(0.5, 2, 0.5);
 		Point p1 = new Point(0, 2, 1); // point on opposite base from axis ray head
-		Point p2 = new Point(0, -1, 1.5); // point on opposite base from axis ray head
+		// Point p2 = new Point(0, -1, 1.5); // point on opposite base from axis ray
+		// head
 		// ============ Equivalence Partitions Tests ==============
 		// TC01: the ray starts on A base, intersects with the cylinder's B base (1
 		// point)

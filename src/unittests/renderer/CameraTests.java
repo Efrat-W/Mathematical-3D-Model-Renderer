@@ -14,6 +14,9 @@ import renderer.Camera;
  *
  */
 class CameraTests {
+	/**
+	 * origin point
+	 */
 	static final Point ZERO_POINT = new Point(0, 0, 0);
 
 	/**

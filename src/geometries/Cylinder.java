@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 import static primitives.Util.isZero;
 import static primitives.Util.alignZero;
@@ -48,31 +47,35 @@ public class Cylinder extends Tube {
 		if (p.equals(p0))
 			return v;
 		double t = v.dotProduct(p.subtract(p0));
-		if (isZero(t) || isZero(t - height)) // on bases
+		if (isZero(t) || alignZero(t - height) == 0) // on bases
 			return v;
 		return super.getNormal(p);
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 		Point rayP = axisRay.getPoint();
 		Vector rayV = axisRay.getDir();
-		Point p1, p2, p, pOne = null, pTwo = null;
-		boolean flag1 = false, flag2 = false, flagUp = false, flagUnder = false;
+		GeoPoint pOne = null;
+		GeoPoint pTwo = null;
+		boolean flag1 = false;
+		boolean flag2 = false;
+		boolean flagUp = false;
+		boolean flagUnder = false;
 		// get tube intersections
-		List<Point> list = super.findIntersections(ray);
+		List<GeoPoint> list = super.findGeoIntersections(ray);
 		if (list != null)
 			if (list.size() == 1) {
-				p = list.get(0);
+				Point p = list.get(0).point;
 				double d = Math.abs(rayV.dotProduct(p.subtract(rayP)));
 				// if point is in the range
 				if (alignZero(height - d) > 0)
 					flag1 = true;
 			} else if (list.size() == 2) {
-				pOne = list.get(0);
-				pTwo = list.get(1);
-				double d1 = Math.abs(rayV.dotProduct(pOne.subtract(rayP)));
-				double d2 = Math.abs(rayV.dotProduct(pTwo.subtract(rayP)));
+				pOne = new GeoPoint(this, list.get(0).point);
+				pTwo = new GeoPoint(this, list.get(1).point);
+				double d1 = Math.abs(rayV.dotProduct(pOne.point.subtract(rayP)));
+				double d2 = Math.abs(rayV.dotProduct(pTwo.point.subtract(rayP)));
 				// if point is in the range
 				if (alignZero(height - d1) > 0)
 					flag1 = true;
@@ -88,17 +91,17 @@ public class Cylinder extends Tube {
 		Point upperPoint = rayP.add(rayV.scale(height));
 		Plane upperPlane = new Plane(upperPoint, rayV);
 		// if point is in the range
-		List<Point> listUpper = upperPlane.findIntersections(ray);
+		List<GeoPoint> listUpper = upperPlane.findGeoIntersections(ray);
 		if (listUpper != null)
-			if (alignZero(radius - upperPoint.distance(listUpper.get(0))) > 0)
+			if (alignZero(radius - upperPoint.distance(listUpper.get(0).point)) > 0)
 				flagUp = true;
 
 		// get under plane intersections
 		Plane underPlane = new Plane(rayP, rayV);
-		List<Point> listUnder = underPlane.findIntersections(ray);
+		List<GeoPoint> listUnder = underPlane.findGeoIntersections(ray);
 		if (listUnder != null)
 
-			if (alignZero(radius - rayP.distance(listUnder.get(0))) > 0)
+			if (alignZero(radius - rayP.distance(listUnder.get(0).point)) > 0)
 				flagUnder = true;
 
 		if (flag1)

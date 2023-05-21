@@ -1,6 +1,6 @@
 package geometries;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 import java.util.List;
 
@@ -84,42 +84,53 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	public List<Point> findIntersections(Ray ray) {
-		for (int i = 0; i < vertices.size(); ++i) {
-			if (ray.getPoint().equals(this.vertices.get(i)))
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+		var intersection = this.plane.findGeoIntersections(ray);
+		if (intersection == null)
+			return null;
+
+		Point p0 = ray.getPoint();
+		Vector v = ray.getDir();
+		int size = vertices.size();
+
+		Vector[] v1ToVn = new Vector[size];
+		for (int i = 0; i < size; ++i) {
+			if (p0.equals(this.vertices.get(i)))
 				return null;
+			v1ToVn[i] = this.vertices.get(i).subtract(p0);
 		}
-		Vector[] v1ToVn = new Vector[this.vertices.size()];
-		for (int i = 0; i < vertices.size(); ++i) {
-			v1ToVn[i] = this.vertices.get(i).subtract(ray.getPoint());
-		}
-		Vector[] N1ToNn = new Vector[this.vertices.size()];
+
+		Vector[] N1ToNn = new Vector[size];
 		try {
-			for (int i = 0; i < vertices.size(); ++i) {
+			for (int i = 0; i < size; ++i) {
 				N1ToNn[i] = v1ToVn[i].crossProduct(v1ToVn[(i + 1) % v1ToVn.length]).normalize();
 			}
 		} catch (IllegalArgumentException e) {
 			return null;
 		}
-		double[] vn1ToVNn = new double[this.vertices.size()];
-		for (int i = 0; i < vertices.size(); ++i) {
-			vn1ToVNn[i] = ray.getDir().dotProduct(N1ToNn[i]);
-		}
-		for (int i = 0; i < vertices.size(); ++i) {
+		double[] vn1ToVNn = new double[size];
+		for (int i = 0; i < size; ++i) {
+			vn1ToVNn[i] = alignZero(v.dotProduct(N1ToNn[i]));
 			if (isZero(vn1ToVNn[i]))
 				return null;
 		}
-		boolean isAllPositive = true, isAllNegative = true;
-		for (int i = 0; i < vertices.size(); ++i) {
-			if (vn1ToVNn[i] < 0 && isAllPositive)
+		boolean isAllPositive = true;
+		boolean isAllNegative = true;
+		for (int i = 0; i < size; ++i) {
+			if (vn1ToVNn[i] < 0 && isAllPositive) {
 				isAllPositive = false;
+				break;
+			}
 		}
-		for (int i = 0; i < vertices.size(); ++i) {
-			if (vn1ToVNn[i] > 0 && isAllNegative)
+		for (int i = 0; i < size; ++i) {
+			if (vn1ToVNn[i] > 0 && isAllNegative) {
 				isAllNegative = false;
+				break;
+			}
 		}
 		if (isAllNegative || isAllPositive) {
-			return this.plane.findIntersections(ray);
+			intersection.get(0).geometry = this;
+			return intersection;
 		}
 		return null;
 	}

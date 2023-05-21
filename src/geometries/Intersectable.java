@@ -14,7 +14,12 @@ import java.util.List;
  */
 
 public abstract class Intersectable {
-	/* list of intersections with the intersectable */
+	/**
+	 * finds all intersection points with a given ray and the intersectable
+	 * 
+	 * @param ray the ray that intersect
+	 * @return list of points that intersect
+	 */
 	public List<Point> findIntersections(Ray ray) {
 		var geoList = findGeoIntersections(ray);
 		return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
@@ -28,9 +33,13 @@ public abstract class Intersectable {
 	 *
 	 */
 	public static class GeoPoint {
-		/* intersected geometry */
+		/**
+		 * intersected geometry
+		 */
 		public Geometry geometry;
-		/* intersection point */
+		/**
+		 * intersection point
+		 */
 		public Point point;
 
 		/**
