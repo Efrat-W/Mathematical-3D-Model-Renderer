@@ -192,9 +192,12 @@ public class Camera {
 		return rayTracerBase.traceRay(constructRay(nx, ny, col, row));
 	}
 
-	/**
-	 * build for each pixel a ray and get it's color
-	 */
+
+	 /**
+	  * build for each pixel a ray and get it's color
+	  *
+	  * @return this camera
+	  */
 	public Camera renderImage() {
 		if (cameraPoint == null || vRight == null || vUp == null || vTo == null || imgWriter == null
 				|| rayTracerBase == null)

@@ -77,7 +77,7 @@ public class Ray {
 	/**
 	 * finds closest point in points of given list to ray head p0
 	 * 
-	 * @param ls list of points on the ray
+	 * @param points list of points on the ray
 	 * @return point closest to p0
 	 */
 	public Point findClosestPoint(List<Point> points) {

@@ -68,7 +68,7 @@ public class Material {
 	/**
 	 * a setter for nShininess
 	 * 
-	 * @param k the int value to set
+	 * @param nShininess the int value to set
 	 * @return this material
 	 */
 	public Material setShininess(int nShininess) {
