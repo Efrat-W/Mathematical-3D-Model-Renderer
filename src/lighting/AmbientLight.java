@@ -9,8 +9,7 @@ import primitives.Double3;
  * 
  * @author Efrat Wexler and Sari Zilberlicht
  */
-public class AmbientLight {
-	private final Color intensity;
+public class AmbientLight extends Light {
 	/**
 	 * ambient light of the scene
 	 */
@@ -23,7 +22,7 @@ public class AmbientLight {
 	 * @param ka a Double3
 	 */
 	public AmbientLight(Color ia, Double3 ka) {
-		this.intensity = ia.scale(ka);
+		super(ia.scale(ka));
 	}
 
 	/**
@@ -33,15 +32,7 @@ public class AmbientLight {
 	 * @param ka a double
 	 */
 	public AmbientLight(Color ia, double ka) {
-		this.intensity = ia.scale(ka);
+		super(ia.scale(ka));
 	}
 
-	/**
-	 * returns ip
-	 * 
-	 * @return intensity
-	 */
-	public Color getIntensity() {
-		return intensity;
-	}
 }

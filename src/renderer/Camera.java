@@ -195,7 +195,7 @@ public class Camera {
 	/**
 	 * build for each pixel a ray and get it's color
 	 */
-	public void renderImage() {
+	public Camera renderImage() {
 		if (cameraPoint == null || vRight == null || vUp == null || vTo == null || imgWriter == null
 				|| rayTracerBase == null)
 			throw new MissingResourceException("missing filed in camera", "", "");
@@ -206,6 +206,7 @@ public class Camera {
 				imgWriter.writePixel(x, y, castRay(x, y, nx, ny));
 			}
 		}
+		return this;
 	}
 
 	/**
