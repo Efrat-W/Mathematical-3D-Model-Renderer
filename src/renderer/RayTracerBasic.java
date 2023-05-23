@@ -3,6 +3,7 @@ package renderer;
 import static primitives.Util.*;
 import primitives.*;
 import geometries.Intersectable.GeoPoint;
+import lighting.LightSource;
 import scene.Scene;
 
 /**
@@ -57,7 +58,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 * @param n  the normal at gp
 	 * @return boolean if unshaded or not
 	 */
-	private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
+	private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource ls) {
 		Vector lightDirection = l.scale(-1);
 		Vector epsVector = n.scale(DELTA);
 		Point point = gp.point.add(epsVector);
@@ -86,7 +87,7 @@ public class RayTracerBasic extends RayTracerBase {
 			Vector l = ls.getL(p.point);
 			double nl = l == null ? 0 : (n.dotProduct(l));
 			if (nl * nv > 0) {
-				if (unshaded(p, l, n)) {
+				if (unshaded(p, l, n, ls)) {
 					Color iL = ls.getIntensity(p.point);
 					color = color.add(iL.scale(calcDiffusive(material, nl)),
 							iL.scale(calcSpecular(material, n, l, nl, v)));
