@@ -84,8 +84,8 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-		var intersection = this.plane.findGeoIntersections(ray);
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
+		var intersection = this.plane.findGeoIntersections(ray, dis);
 		if (intersection == null)
 			return null;
 

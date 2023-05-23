@@ -11,6 +11,8 @@ import scene.Scene;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 public class RayTracerBasic extends RayTracerBase {
+	private static final double DELTA = 0.1;
+
 	/**
 	 * Ray Tracer constructor by scene
 	 * 
@@ -43,7 +45,25 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, Vector v) {
 		Vector r = l.subtract(n.scale(2 * nl));
-		return material.kS.scale(Math.pow(Math.max(0, -(v.dotProduct(r))), material.nShininess));
+		double vr = alignZero(v.dotProduct(r));
+		return vr >= 0 ? Double3.ZERO : material.kS.scale(Math.pow(-vr, material.nShininess));
+	}
+
+	/**
+	 * checks if the point is unshaded or not.
+	 * 
+	 * @param gp the geoPoint that we check
+	 * @param l  the light source direction
+	 * @param n  the normal at gp
+	 * @return boolean if unshaded or not
+	 */
+	private boolean unshaded(GeoPoint gp, Vector l, Vector n) {
+		Vector lightDirection = l.scale(-1);
+		Vector epsVector = n.scale(DELTA);
+		Point point = gp.point.add(epsVector);
+		Ray lightRay = new Ray(point, lightDirection);
+		var intersections = scene.geometries.findIntersections(lightRay);
+		return intersections == null;
 	}
 
 	/**
@@ -64,10 +84,13 @@ public class RayTracerBasic extends RayTracerBase {
 
 		for (var ls : scene.lights) {
 			Vector l = ls.getL(p.point);
-			double nl = alignZero(n.dotProduct(l));
+			double nl = l == null ? 0 : (n.dotProduct(l));
 			if (nl * nv > 0) {
-				Color iL = ls.getIntensity(p.point);
-				color = color.add(iL.scale(calcDiffusive(material, nl)), iL.scale(calcSpecular(material, n, l, nl, v)));
+				if (unshaded(p, l, n)) {
+					Color iL = ls.getIntensity(p.point);
+					color = color.add(iL.scale(calcDiffusive(material, nl)),
+							iL.scale(calcSpecular(material, n, l, nl, v)));
+				}
 			}
 		}
 		return color;
@@ -93,9 +116,7 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	public Color traceRay(Ray r) {
 		var lst = scene.geometries.findGeoIntersections(r);
-		if (lst == null)
-			return scene.background;
-		return calcColor(r.findClosestGeoPoint(lst), r);
+		return lst == null ? scene.background : calcColor(r.findClosestGeoPoint(lst), r);
 	}
 
 }

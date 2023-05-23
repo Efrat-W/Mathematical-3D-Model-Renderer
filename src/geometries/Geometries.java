@@ -15,13 +15,12 @@ import primitives.Ray;
  */
 
 public class Geometries extends Intersectable {
-	private final List<Intersectable> geometries;
+	private final List<Intersectable> geometries = new LinkedList<>();
 
 	/**
 	 * a default constructor
 	 */
 	public Geometries() {
-		geometries = new LinkedList<Intersectable>();
 	}
 
 	/**
@@ -31,9 +30,7 @@ public class Geometries extends Intersectable {
 	 * @param geometries geometries to add to list
 	 */
 	public Geometries(Intersectable... geometries) {
-		this.geometries = new LinkedList<Intersectable>();
-		for (Intersectable g : geometries)
-			this.geometries.add(g);
+		add(geometries);
 	}
 
 	/**
@@ -42,15 +39,14 @@ public class Geometries extends Intersectable {
 	 * @param geometries the geomtries to add
 	 */
 	public void add(Intersectable... geometries) {
-		for (Intersectable g : geometries)
-			this.geometries.add(g);
+		this.geometries.addAll(List.of(geometries));
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
 		LinkedList<GeoPoint> toReturn = null;
 		for (Intersectable g : this.geometries) {
-			var lPoints = g.findGeoIntersections(ray);
+			var lPoints = g.findGeoIntersections(ray, dis);
 			if (lPoints != null) {
 				if (toReturn == null)
 					toReturn = new LinkedList<>();

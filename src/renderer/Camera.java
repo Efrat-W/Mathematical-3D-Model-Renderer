@@ -5,10 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static primitives.Util.isZero;
 
-import java.awt.image.renderable.RenderableImage;
 import java.util.MissingResourceException;
 
 /**
@@ -192,12 +190,11 @@ public class Camera {
 		return rayTracerBase.traceRay(constructRay(nx, ny, col, row));
 	}
 
-
-	 /**
-	  * build for each pixel a ray and get it's color
-	  *
-	  * @return this camera
-	  */
+	/**
+	 * build for each pixel a ray and get it's color
+	 *
+	 * @return this camera
+	 */
 	public Camera renderImage() {
 		if (cameraPoint == null || vRight == null || vUp == null || vTo == null || imgWriter == null
 				|| rayTracerBase == null)

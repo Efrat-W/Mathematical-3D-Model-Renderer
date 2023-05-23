@@ -85,9 +85,7 @@ public class Scene {
 	 * @return scene object itself
 	 */
 	public Scene setLights(LightSource... ls) {
-		// lights=new LinkedList<>();
-		for (var l : ls)
-			lights.add(l);
+		lights.addAll(List.of(ls));
 		return this;
 	}
 }

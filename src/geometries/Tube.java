@@ -49,7 +49,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance) {
 
 		// Given ray (A + ta) and this Tube ray (B + tb)
 		Point pointA = ray.getPoint();
@@ -135,10 +135,13 @@ public class Tube extends RadialGeometry {
 
 		// Check if the points are in range and return them
 
+		double t1 = alignZero(p1.point.distance(pointA));
+		double t2 = alignZero(p2.point.distance(pointA));
+
 		try {
 			// the ray starts before point 1
 			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0)
-					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && t1 < distance && t2 < distance) {
 				return List.of(p1, p2);
 			}
 		} catch (IllegalArgumentException ex) {
@@ -148,7 +151,7 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0) && t1 < distance) {
 				return List.of(p1);
 			}
 		} catch (IllegalArgumentException ex) {
@@ -157,7 +160,7 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 2
-			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0)) {
+			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && t2 < distance) {
 				return List.of(p2);
 			}
 		} catch (IllegalArgumentException ex) {

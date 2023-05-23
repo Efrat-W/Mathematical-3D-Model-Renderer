@@ -1,7 +1,5 @@
 package primitives;
 
-import lighting.PointLight;
-
 /**
  * Class Material is the basic class representing the materials
  * 

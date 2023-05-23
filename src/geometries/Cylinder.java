@@ -53,7 +53,7 @@ public class Cylinder extends Tube {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
 		Point rayP = axisRay.getPoint();
 		Vector rayV = axisRay.getDir();
 		GeoPoint pOne = null;
@@ -63,7 +63,7 @@ public class Cylinder extends Tube {
 		boolean flagUp = false;
 		boolean flagUnder = false;
 		// get tube intersections
-		List<GeoPoint> list = super.findGeoIntersections(ray);
+		List<GeoPoint> list = super.findGeoIntersections(ray, dis);
 		if (list != null)
 			if (list.size() == 1) {
 				Point p = list.get(0).point;
@@ -77,10 +77,10 @@ public class Cylinder extends Tube {
 				double d1 = Math.abs(rayV.dotProduct(pOne.point.subtract(rayP)));
 				double d2 = Math.abs(rayV.dotProduct(pTwo.point.subtract(rayP)));
 				// if point is in the range
-				if (alignZero(height - d1) > 0)
+				if (alignZero(height - d1) > 0 && alignZero(pOne.point.distance(rayP)) < dis)
 					flag1 = true;
 				// if point is in the range
-				if (alignZero(height - d2) > 0)
+				if (alignZero(height - d2) > 0 && alignZero(pOne.point.distance(rayP)) < dis)
 					flag2 = true;
 			}
 
@@ -93,7 +93,8 @@ public class Cylinder extends Tube {
 		// if point is in the range
 		List<GeoPoint> listUpper = upperPlane.findGeoIntersections(ray);
 		if (listUpper != null)
-			if (alignZero(radius - upperPoint.distance(listUpper.get(0).point)) > 0)
+			if (alignZero(radius - upperPoint.distance(listUpper.get(0).point)) > 0 && //
+					alignZero(listUpper.get(0).point.distance(rayP)) < dis)
 				flagUp = true;
 
 		// get under plane intersections
@@ -101,7 +102,8 @@ public class Cylinder extends Tube {
 		List<GeoPoint> listUnder = underPlane.findGeoIntersections(ray);
 		if (listUnder != null)
 
-			if (alignZero(radius - rayP.distance(listUnder.get(0).point)) > 0)
+			if (alignZero(radius - rayP.distance(listUnder.get(0).point)) > 0 && //
+					alignZero(listUnder.get(0).point.distance(rayP)) < dis)
 				flagUnder = true;
 
 		if (flag1)
