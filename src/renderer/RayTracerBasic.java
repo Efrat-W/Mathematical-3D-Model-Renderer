@@ -60,10 +60,10 @@ public class RayTracerBasic extends RayTracerBase {
 	 */
 	private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource ls) {
 		Vector lightDirection = l.scale(-1);
-		Vector epsVector = n.scale(DELTA);
+		Vector epsVector = n.scale(alignZero(n.dotProduct(lightDirection)) > 0 ? DELTA : -DELTA);
 		Point point = gp.point.add(epsVector);
 		Ray lightRay = new Ray(point, lightDirection);
-		var intersections = scene.geometries.findIntersections(lightRay);
+		var intersections = scene.geometries.findGeoIntersections(lightRay, ls.getDistance(point));
 		return intersections == null;
 	}
 

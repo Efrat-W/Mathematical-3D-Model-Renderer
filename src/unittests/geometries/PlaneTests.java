@@ -81,6 +81,10 @@ class PlaneTests {
 		Ray ray2 = new Ray(new Point(2, 0, 0), new Vector(1, 0, 1));
 		assertEquals(null, plane.findIntersections(ray2),
 				"Bad intersects to plane - line does not intersect the plane");
+		
+		//TC03: outside of max distance boundary
+		assertNull(plane.findGeoIntersections(ray1, 0.1),
+			"Bad intersects to plane - line does intersect the plane");
 
 		// =============== Boundary Values Tests ==================
 

@@ -39,8 +39,12 @@ class GeomtriesTests {
 		assertEquals(2, g.findIntersections(ray).size(), "Wrong number of intersections");
 		// TC14: all shapes intersect
 		assertEquals(5, g.findIntersections(ray2).size(), "Wrong number of intersections");
+		
 		// ============ Equivalence Partitions Tests ==============
-		// TC01: some shapes intersect (not all of them)
+		// TC01: outside of max distance boundaries
+		assertNull(g.findGeoIntersections(ray, 0.2));
+		
+		// TC02: some shapes intersect (not all of them)
 		g.add(new Sphere(new Point(-2, 4, 7), 1d));
 		assertEquals(5, g.findIntersections(ray2).size(), "Wrong number of intersections");
 

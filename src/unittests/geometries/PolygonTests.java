@@ -100,6 +100,9 @@ class PolygonTests {
 		// TC03: Ray's line is Outside against vertex (0 points)
 		Ray ray3 = new Ray(new Point(0, 2, -1), new Vector(0, 0, 1));
 		assertNull(polygon.findIntersections(ray3), "Bad intersects to polygon - line is Outside against vertex");
+		
+		//TC04: should've intersected but out of max distance boundary
+		assertNull(polygon.findGeoIntersections(ray1, 0.3), "Bad intersects to polygon - line is Outside against vertex");
 
 		// =============== Boundary Values Tests ==================
 

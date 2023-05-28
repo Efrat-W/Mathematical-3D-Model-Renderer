@@ -62,6 +62,11 @@ class SphereTests {
 		assertNull(sphere.findIntersections(new Ray(new Point(2.5, -1, 0.8), new Vector(3, -1, 1))),
 				"Ray's line out of sphere and starts outside of sphere");
 
+		
+		// TC05: Ray starts before and crosses the sphere but is too far (0 points)
+		assertNull(sphere.findGeoIntersections(new Ray(new Point(-1, 0, 0), new Vector(3, 1, 0)), 0.5),
+			"Ray's line out of sphere");
+				
 		// =============== Boundary Values Tests ==================
 		// **** Group: Ray's line crosses the sphere (but not the center)
 		// TC11: Ray starts at sphere and goes inside (1 points)
