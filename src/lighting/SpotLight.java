@@ -10,7 +10,8 @@ import static primitives.Util.*;
  */
 public class SpotLight extends PointLight {
 	private final Vector direction;
-
+	private double narrowBeam = 1;
+	
 	/**
 	 * a constructor for a spot light by a given intensity color and a direction
 	 * vector
@@ -27,6 +28,18 @@ public class SpotLight extends PointLight {
 	@Override
 	public Color getIntensity(Point p) {
 		double dirL = alignZero(direction.dotProduct(getL(p)));
+		dirL = Math.pow(dirL, narrowBeam);
 		return dirL <= 0 ? Color.BLACK : super.getIntensity(p).scale(dirL);
+	}
+	
+	/**
+	 * sets narrowness of the spotlight beam
+	 * 
+	 * @param narrowBeam value to set
+	 * @return this lightSource
+	 */
+	public SpotLight setNarrowBeam(double narrowBeam) {
+	    this.narrowBeam = narrowBeam;
+	    return this;
 	}
 }
