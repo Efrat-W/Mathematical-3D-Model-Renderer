@@ -69,7 +69,7 @@ public class RayTracerBasic extends RayTracerBase {
 	if (intersections == null)
 	    return true;
 	for (GeoPoint g : intersections)
-	    if (g.geometry.getMaterial().kT == Double3.ZERO)
+	    if (g.geometry.getMaterial().kT.equals(Double3.ZERO))
 		return false;
 	return true;
     }
@@ -214,8 +214,8 @@ public class RayTracerBasic extends RayTracerBase {
 	Vector v = ray.getDir();
 	Vector n = gp.geometry.getNormal(gp.point);
 	Material material = gp.geometry.getMaterial();
-	return calcColorGLobalEffect(constructReflectedRay(gp, v, n), level, k, material.kR)
-		.add(calcColorGLobalEffect(constructRefractedRay(gp, v, n), level, k, material.kT));
+	return calcColorGlobalEffect(constructReflectedRay(gp, v, n), level, k, material.kR)
+		.add(calcColorGlobalEffect(constructRefractedRay(gp, v, n), level, k, material.kT));
     }
 
     /**
@@ -227,7 +227,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @param kx    reflection/refraction attenuation coefficient
      * @return color with global effects
      */
-    private Color calcColorGLobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
+    private Color calcColorGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
 	Double3 kkx = k.product(kx);
 	if (kkx.lowerThan(MIN_CALC_COLOR_K))
 	    return Color.BLACK;
@@ -236,7 +236,7 @@ public class RayTracerBasic extends RayTracerBase {
 	    return scene.background.scale(kx);
 	level = level - 1;
 	return isZero(gp.geometry.getNormal(gp.point).dotProduct(ray.getDir())) ? Color.BLACK
-		: calcColor(gp, ray, level, kkx);
+		: calcColor(gp, ray, level, kkx).scale(kx);
     }
 
 }
