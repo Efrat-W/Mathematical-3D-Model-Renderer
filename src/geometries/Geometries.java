@@ -2,9 +2,6 @@ package geometries;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PrimitiveIterator.OfDouble;
-
-import primitives.Point;
 import primitives.Ray;
 
 /**

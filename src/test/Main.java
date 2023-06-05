@@ -7,9 +7,9 @@ package test;
 
 import static java.lang.System.out;
 import static primitives.Util.isZero;
-import geometries.*;
+
 import primitives.Point;
-import primitives.Ray;
+
 import primitives.Vector;
 
 /**
