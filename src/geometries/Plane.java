@@ -69,7 +69,7 @@ public class Plane extends Geometry {
 		if (isZero(numerator) || isZero(denominator))
 			return null;
 		double t = alignZero(numerator / denominator);
-		return t <= 0 || t > dis ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+		return t <= 0 || alignZero(t - dis) > 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
 	}
 
 	@Override

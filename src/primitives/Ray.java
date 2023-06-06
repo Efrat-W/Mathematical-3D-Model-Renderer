@@ -32,7 +32,7 @@ public class Ray {
      * constructor that moves the ray head-point delta
      * 
      * @param head      ray head point
-     * @param direction ray direction vector
+     * @param direction ray direction vector (must be normalized!)
      * @param n         normal at the point
      */
     public Ray(Point head, Vector direction, Vector n) {

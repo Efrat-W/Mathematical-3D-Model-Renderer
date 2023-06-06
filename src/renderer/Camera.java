@@ -7,7 +7,10 @@ import primitives.Vector;
 
 import static primitives.Util.isZero;
 
+import java.util.List;
 import java.util.MissingResourceException;
+
+import geometries.Plane;
 
 /**
  * Class Camera is the class representing the camera (our point of view)
@@ -24,6 +27,13 @@ public class Camera {
 	private ImageWriter imgWriter;
 	private RayTracerBase rayTracerBase;
 
+	
+	/* DoF Ray Tracing Improvement, declarations */
+	private Plane focalPlane;
+	private double focalPlaneDis;
+	private List<Point> aperturePoints;
+	private double apertureSize;
+	
 	/**
 	 * return the camera point (position)
 	 * 

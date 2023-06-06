@@ -138,16 +138,16 @@ public class ReflectionRefractionTests {
 
 				new Polygon(b, c, e).setMaterial(material).setEmission(color2),
 
-				new Tube(new Ray(new Point(-80, 80, -20), new Vector(0, -120, 10)), 5).setEmission(color1)
+				new Tube(new Ray(new Point(-80, 80, -20), new Vector(0, -120, 20)), 5).setEmission(color1)
 						.setMaterial(new Material().setKd(0.3).setKs(0.3).setKt(0.5)),
 
-				new Tube(new Ray(new Point(-80, -80, -20), new Vector(-120, 0, -10)), 5).setEmission(color1.reduce(3))
+				new Tube(new Ray(new Point(-80, -80, -20), new Vector(-120, 0, -20)), 5).setEmission(color1.reduce(3))
 						.setMaterial(new Material().setKd(0.3).setKs(0.3).setKt(0.5)),
 
-				new Tube(new Ray(new Point(80, -80, -20), new Vector(0, 120, 10)), 5).setEmission(color2)
+				new Tube(new Ray(new Point(80, -80, -20), new Vector(0, 120, 20)), 5).setEmission(color2)
 						.setMaterial(new Material().setKd(0.3).setKs(0.3).setKt(0.5)),
 
-				new Tube(new Ray(new Point(80, 80, -20), new Vector(120, 0, -10)), 5).setEmission(color2.reduce(3))
+				new Tube(new Ray(new Point(80, 80, -20), new Vector(120, 0, -20)), 5).setEmission(color2.reduce(3))
 						.setMaterial(new Material().setKd(0.3).setKs(0.3).setKt(0.5)));
 		
 		scene.lights.add(new SpotLight(new Color(WHITE), new Point(0, 150, -60), new Vector(0, -150, 60)) //
