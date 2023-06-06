@@ -153,7 +153,8 @@ public class ReflectionRefractionTests {
 		scene.lights.add(new SpotLight(new Color(WHITE), new Point(0, 150, -60), new Vector(0, -150, 60)) //
 				.setNarrowBeam(3).setKl(0.0004).setKq(0.000001));
 		
-		camera.setImageWriter(new ImageWriter("refractionTube", 5000, 5000)) //
+		camera.setDoFFlag(true).setNumOfPoints(36).setFPDistance(500).setApertureSize(1)
+.setImageWriter(new ImageWriter("refractionTube", 5000, 5000)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage();

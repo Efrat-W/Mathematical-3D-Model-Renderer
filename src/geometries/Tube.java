@@ -140,8 +140,9 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0)
-					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - dis) < 0&&alignZero(t2 - dis) < 0) {
+			if (!(alignZero(p1.point.subtract(pointA).dotProduct(vectorA)) < 0.0)
+					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - distance) <= 0
+					&& alignZero(t2 - distance) <= 0) {
 				return List.of(p1, p2);
 			}
 		} catch (IllegalArgumentException ex) {
@@ -151,7 +152,7 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - dis) < 0) {
+			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - distance) <= 0) {
 				return List.of(p1);
 			}
 		} catch (IllegalArgumentException ex) {
@@ -160,7 +161,7 @@ public class Tube extends RadialGeometry {
 
 		try {
 			// the ray starts before point 2
-			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t2 - dis) < 0) {
+			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t2 - distance) <= 0) {
 				return List.of(p2);
 			}
 		} catch (IllegalArgumentException ex) {
