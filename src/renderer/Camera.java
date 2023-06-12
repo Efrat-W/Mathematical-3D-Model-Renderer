@@ -28,7 +28,7 @@ public class Camera {
 	private RayTracerBase rayTracerBase;
 
 	/* DoF Ray Tracing Improvement, declarations */
-	private boolean DoFFlag = false;
+	private boolean dofFlag = false;
 	
 	private Plane focalPlane;
 	private double focalPlaneDis;
@@ -204,7 +204,7 @@ public class Camera {
 	private Color castRay(int col, int row, int nx, int ny) {
 
 		Ray ray = constructRay(nx, ny, col, row);
-		if (DoFFlag) // if there is the improvement of depth of filed
+		if (dofFlag) // if there is the improvement of depth of filed
 			return averagedBeamColor(ray);
 
 		return rayTracerBase.traceRay(ray);
@@ -265,7 +265,7 @@ public class Camera {
      * @return The camera itself.
      */
     public Camera setDoFFlag(boolean depthOfFiled) {
-        DoFFlag = depthOfFiled;
+        dofFlag = depthOfFiled;
         return this;
     }
 
@@ -312,13 +312,11 @@ public class Camera {
      * point, and then initializing the array with the points
      */
     private void initializeAperturePoint() {
-        //the number of points in a row
-        int pointsInRow = (int) Math.sqrt(numOfPoints);
+       
+    	int pointsInRow = (int) Math.sqrt(numOfPoints);
 
-        //the l of point saved as an array
         aperturePoints = new Point[pointsInRow * pointsInRow];
 
-        //calculating the initial values.
         double pointsDistance = (apertureSize * 2) / pointsInRow;
         //calculate the initial point to be the point with coordinates outside the aperture in the down left point,
         //so we won`t have to deal with illegal vectors.
