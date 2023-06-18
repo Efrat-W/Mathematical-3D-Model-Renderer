@@ -141,7 +141,7 @@ class DepthOfFieldTests {
 		scene.lights
 				.add(new SpotLight(new Color(WHITE), new Point(100, 100, 400), new Vector(-1, -1, -1)).setKq(0.000001));
 
-		camera.setImageWriter(new ImageWriter("lightSphereDirectionalDepthOfFieldTesting", 700,700)) //
+		camera.setImageWriter(new ImageWriter("lightSphereDirectionalDepthOfFieldTesting", 300,300)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage(); //
@@ -271,7 +271,7 @@ class DepthOfFieldTests {
 		scene.lights
 				.add(new SpotLight(new Color(WHITE), new Point(100, 100, 400), new Vector(-1, -1, -1)).setKq(0.000001));
 
-		camera.setImageWriter(new ImageWriter("lightSphereDirectionalDepthOfFieldTesting", 100,100)) //
+		camera.setImageWriter(new ImageWriter("lightSphereDirectionalDepthOfFieldTesting2", 100,100)) //
 				.setRayTracer(new RayTracerBasic(scene)) //
 				.renderImage() //
 				.writeToImage(); //
