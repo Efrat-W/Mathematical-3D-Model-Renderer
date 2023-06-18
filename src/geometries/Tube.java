@@ -174,6 +174,17 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
+	protected void findMinMax() {
+		minX = Double.NEGATIVE_INFINITY;
+		minY = Double.NEGATIVE_INFINITY;
+		minZ = Double.NEGATIVE_INFINITY;
+
+		maxX = Double.POSITIVE_INFINITY;
+		maxY = Double.POSITIVE_INFINITY;
+		maxZ = Double.POSITIVE_INFINITY;
+	}
+
+	@Override
 	public String toString() {
 		return "" + axisRay + ", " + radius;
 	}

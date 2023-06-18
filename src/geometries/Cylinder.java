@@ -68,7 +68,7 @@ public class Cylinder extends Tube {
 			if (list.size() == 1) {
 				Point p = list.get(0).point;
 				double d = rayV.dotProduct(p.subtract(rayP));
-				d = d < 0 ? - d : d;
+				d = d < 0 ? -d : d;
 				// if point is in the range
 				if (alignZero(height - d) > 0)
 					flag1 = true;
@@ -76,10 +76,10 @@ public class Cylinder extends Tube {
 				pOne = new GeoPoint(this, list.get(0).point);
 				pTwo = new GeoPoint(this, list.get(1).point);
 				double d1 = rayV.dotProduct(pOne.point.subtract(rayP));
-				d1 = d1 < 0 ? - d1 : d1;
+				d1 = d1 < 0 ? -d1 : d1;
 
 				double d2 = rayV.dotProduct(pTwo.point.subtract(rayP));
-				d2 = d2 < 0 ? - d2 : d2;
+				d2 = d2 < 0 ? -d2 : d2;
 
 				// if point is in the range
 				if (alignZero(height - d1) > 0 && alignZero(pOne.point.distance(rayP)) < dis)

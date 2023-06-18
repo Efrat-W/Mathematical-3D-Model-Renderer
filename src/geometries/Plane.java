@@ -60,7 +60,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
+	public List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis) {
 		Point point = ray.getPoint();
 		if (point.equals(this.q0))
 			return null;
@@ -70,6 +70,17 @@ public class Plane extends Geometry {
 			return null;
 		double t = alignZero(numerator / denominator);
 		return t <= 0 || alignZero(t - dis) > 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
+	}
+
+	@Override
+	protected void findMinMax() {
+		minX = Double.NEGATIVE_INFINITY;
+		minY = Double.NEGATIVE_INFINITY;
+		minZ = Double.NEGATIVE_INFINITY;
+
+		maxX = Double.POSITIVE_INFINITY;
+		maxY = Double.POSITIVE_INFINITY;
+		maxZ = Double.POSITIVE_INFINITY;
 	}
 
 	@Override

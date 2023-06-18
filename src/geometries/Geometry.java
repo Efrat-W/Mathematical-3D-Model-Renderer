@@ -11,7 +11,7 @@ import primitives.Vector;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public abstract class Geometry extends Intersectable {
+public abstract class Geometry extends BoundingBox {
 	/**
 	 * emission light of the shapes
 	 */

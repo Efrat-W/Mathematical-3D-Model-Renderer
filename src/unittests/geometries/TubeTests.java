@@ -75,10 +75,10 @@ class TubeTests {
 
 		// TC04: the ray starts from outside, doesn't intersect with the tube (0 points)
 		assertNull(tube.findIntersections(new Ray(new Point(2, 2.5, 1), new Vector(1, 2.5, 1))), "Ray out of tube");
-		
-		//TC05: should've intersected but is outside of max distance boundries
-		assertNull(tube.findGeoIntersections(new Ray(new Point(1, 0, 0), new Vector(1, 2.5, 1)), 0.5), "Ray out of tube");
 
+		// TC05: should've intersected but is outside of max distance boundries
+		assertNull(tube.findGeoIntersections(new Ray(new Point(1, 0, 0), new Vector(1, 2.5, 1)), 0.5),
+				"Ray out of tube");
 
 		// =============== Boundary Values Tests ==================
 		// *************parallel******************

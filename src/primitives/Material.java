@@ -6,7 +6,7 @@ package primitives;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 public class Material {
-    
+
 	/**
 	 * diffusion attenuation coefficient
 	 */
@@ -19,7 +19,7 @@ public class Material {
 	 * the concentration of the lightning
 	 */
 	public int nShininess = 1;
-	
+
 	/**
 	 * Reflection attenuation coefficient
 	 */
@@ -83,7 +83,7 @@ public class Material {
 		this.nShininess = nShininess;
 		return this;
 	}
-	
+
 	/**
 	 * a setter for kR
 	 * 
@@ -94,6 +94,7 @@ public class Material {
 		kR = k;
 		return this;
 	}
+
 	/**
 	 * a setter for kR
 	 * 
@@ -104,8 +105,7 @@ public class Material {
 		kR = new Double3(k);
 		return this;
 	}
-	
-	
+
 	/**
 	 * a setter for kT
 	 * 
@@ -116,6 +116,7 @@ public class Material {
 		kT = k;
 		return this;
 	}
+
 	/**
 	 * a setter for kT
 	 * 

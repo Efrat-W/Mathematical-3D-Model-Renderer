@@ -11,7 +11,7 @@ import static primitives.Util.*;
 public class SpotLight extends PointLight {
 	private final Vector direction;
 	private double narrowBeam = 1;
-	
+
 	/**
 	 * a constructor for a spot light by a given intensity color and a direction
 	 * vector
@@ -31,7 +31,7 @@ public class SpotLight extends PointLight {
 		dirL = Math.pow(dirL, narrowBeam);
 		return dirL <= 0 ? Color.BLACK : super.getIntensity(p).scale(dirL);
 	}
-	
+
 	/**
 	 * sets narrowness of the spotlight beam
 	 * 
@@ -39,7 +39,7 @@ public class SpotLight extends PointLight {
 	 * @return this lightSource
 	 */
 	public SpotLight setNarrowBeam(double narrowBeam) {
-	    this.narrowBeam = narrowBeam;
-	    return this;
+		this.narrowBeam = narrowBeam;
+		return this;
 	}
 }

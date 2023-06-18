@@ -62,8 +62,9 @@ class TriangleTests {
 		Ray ray3 = new Ray(new Point(0, 2, -1), new Vector(0, 0, 1));
 		assertNull(triangle.findIntersections(ray3), "Bad intersects to triangle - line is Outside against vertex");
 
-		//TC04: should've intersected but out of max distance boundary
-				assertNull(triangle.findGeoIntersections(ray1, 0.3), "Bad intersects to triangle - line is Outside against vertex");
+		// TC04: should've intersected but out of max distance boundary
+		assertNull(triangle.findGeoIntersections(ray1, 0.3),
+				"Bad intersects to triangle - line is Outside against vertex");
 
 		// =============== Boundary Values Tests ==================
 

@@ -1,5 +1,6 @@
 package renderer;
 
+import geometries.BoundingBox;
 import primitives.*;
 import scene.Scene;
 
@@ -27,4 +28,15 @@ public abstract class RayTracerBase {
 	 * @return Color given from traced ray
 	 */
 	public abstract Color traceRay(Ray r);
+
+	/**
+	 * Setter for the functionality of Conservative Bounding Region/Bounding Volume
+	 * Hierarchy
+	 * 
+	 * @return this
+	 */
+	public RayTracerBase setBVH() {
+		BoundingBox.setBVH();
+		return this;
+	}
 }

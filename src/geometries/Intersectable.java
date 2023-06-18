@@ -64,6 +64,7 @@ public abstract class Intersectable {
 			return "Point: " + point + ", Geometry: " + geometry;
 		}
 
+		
 	}
 
 	/**
@@ -98,4 +99,11 @@ public abstract class Intersectable {
 	 */
 	protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDis);
 
+	/**
+	 * finds all the intersection points with geometry
+	 * @param ray
+	 * @return list of Geopoints that the ray intersects
+	 */
+	protected abstract  List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis);
+}
 }

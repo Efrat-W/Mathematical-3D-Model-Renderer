@@ -84,7 +84,7 @@ public class Polygon extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
+	public List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis) {
 		var intersection = this.plane.findGeoIntersections(ray, dis);
 		if (intersection == null)
 			return null;
@@ -138,6 +138,31 @@ public class Polygon extends Geometry {
 	@Override
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
+	}
+
+	@Override
+	protected void findMinMax() {
+		minX = Double.POSITIVE_INFINITY;
+		maxX = Double.NEGATIVE_INFINITY;
+		minY = Double.POSITIVE_INFINITY;
+		maxY = Double.NEGATIVE_INFINITY;
+		minZ = Double.POSITIVE_INFINITY;
+		maxZ = Double.NEGATIVE_INFINITY;
+		// Adjust the size of the box according to the vertices
+		for (Point v : vertices) {
+			if (v.getX() < minX)
+				minX = v.getX();
+			if (v.getX() > maxX)
+				maxX = v.getX();
+			if (v.getY() < minY)
+				minY = v.getY();
+			if (v.getY() > maxY)
+				maxY = v.getY();
+			if (v.getZ() < minZ)
+				minZ = v.getZ();
+			if (v.getZ() > maxZ)
+				maxZ = v.getZ();
+		}
 	}
 
 }

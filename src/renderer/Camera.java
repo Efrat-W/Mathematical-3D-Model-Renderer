@@ -29,7 +29,7 @@ public class Camera {
 
 	/* DoF Ray Tracing Improvement, declarations */
 	private boolean dofFlag = false;
-	
+
 	private Plane focalPlane;
 	private double focalPlaneDis;
 
@@ -37,6 +37,7 @@ public class Camera {
 	private double apertureSize;
 
 	private int numOfPoints;
+
 	/**
 	 * return the camera point (position)
 	 * 
@@ -256,102 +257,103 @@ public class Camera {
 			throw new MissingResourceException("missing filed in camera", "", "");
 		imgWriter.writeToImage();
 	}
-	
-	
-	 /**
-     * setter of the depth of field flag (if using it or not)
-     *
-     * @param depthOfFiled If true, the camera will have a depth of field effect.
-     * @return The camera itself.
-     */
-    public Camera setDoFFlag(boolean depthOfFiled) {
-        dofFlag = depthOfFiled;
-        return this;
-    }
 
-    /**
-     * setter for the distance of the focal plane from the camera's position
-     *
-     * @param distance The distance from the camera to the focal plane.
-     * @return The camera itself.
-     */
-    public Camera setFPDistance(double distance) {
-        focalPlaneDis= distance;
-        focalPlane = new Plane(cameraPoint.add(this.vTo.scale(focalPlaneDis)), vTo); //the focal plane is parallel to the view plane
-        return this;
-    }
+	/**
+	 * setter of the depth of field flag (if using it or not)
+	 *
+	 * @param depthOfFiled If true, the camera will have a depth of field effect.
+	 * @return The camera itself.
+	 */
+	public Camera setDoFFlag(boolean depthOfFiled) {
+		dofFlag = depthOfFiled;
+		return this;
+	}
 
-    /**
-     * settrer for the aperture size of the camera and initializing the points of the aperture.
-     *
-     * @param size the size of the aperture.
-     * @return The camera itself.
-     */
-    public Camera setApertureSize(double size) {
-        apertureSize = size;
-        //initializing the points of the aperture.
-        if (size != 0) initializeAperturePoint();
+	/**
+	 * setter for the distance of the focal plane from the camera's position
+	 *
+	 * @param distance The distance from the camera to the focal plane.
+	 * @return The camera itself.
+	 */
+	public Camera setFPDistance(double distance) {
+		focalPlaneDis = distance;
+		focalPlane = new Plane(cameraPoint.add(this.vTo.scale(focalPlaneDis)), vTo); // the focal plane is parallel to
+																						// the view plane
+		return this;
+	}
 
-        return this;
-    }
+	/**
+	 * settrer for the aperture size of the camera and initializing the points of
+	 * the aperture.
+	 *
+	 * @param size the size of the aperture.
+	 * @return The camera itself.
+	 */
+	public Camera setApertureSize(double size) {
+		apertureSize = size;
+		// initializing the points of the aperture.
+		if (size != 0)
+			initializeAperturePoint();
 
-    /**
-     * settrer for the aperture size number of points on the aperture.
-     *
-     * @param num the number of the points on the aperture.
-     * @return The camera itself.
-     */
-    public Camera setNumOfPoints(int num) {
-        numOfPoints = num;
-        return this;
-    }
+		return this;
+	}
 
-    
-    /**
-     * initializing the aperture points array by calculating the distance between the points and the initial
-     * point, and then initializing the array with the points
-     */
-    private void initializeAperturePoint() {
-       
-    	int pointsInRow = (int) Math.sqrt(numOfPoints);
+	/**
+	 * settrer for the aperture size number of points on the aperture.
+	 *
+	 * @param num the number of the points on the aperture.
+	 * @return The camera itself.
+	 */
+	public Camera setNumOfPoints(int num) {
+		numOfPoints = num;
+		return this;
+	}
 
-        aperturePoints = new Point[pointsInRow * pointsInRow];
+	/**
+	 * initializing the aperture points array by calculating the distance between
+	 * the points and the initial point, and then initializing the array with the
+	 * points
+	 */
+	private void initializeAperturePoint() {
 
-        double pointsDistance = (apertureSize * 2) / pointsInRow;
-        //calculate the initial point to be the point with coordinates outside the aperture in the down left point,
-        //so we won`t have to deal with illegal vectors.
-        double s = -(apertureSize + pointsDistance / 2);
-        Point initialPoint = cameraPoint
-                .add(this.vUp.scale(s)
-                        .add(this.vRight.scale(s)));
+		int pointsInRow = (int) Math.sqrt(numOfPoints);
 
-        //initializing the points array
-        for (int i = 0; i < pointsInRow; i++) {
-            for (int j = 0; j < pointsInRow; j++) {
-                this.aperturePoints[i + j*pointsInRow] = initialPoint
-                        .add(this.vUp.scale((i+1) * pointsDistance).add(this.vRight.scale((j+1) * pointsDistance)));
-            }
-        }
-    }
+		aperturePoints = new Point[pointsInRow * pointsInRow];
 
-    /**
-     *averaging the colors of all the rays that were shoot from the aperture points
-     * to the point where the ray intersects the focal plane.
-     *
-     * @param ray The ray that is being traced.
-     * @return The average color of the image.
-     */
-    private Color averagedBeamColor(Ray ray) {
-        Color averageColor = Color.BLACK;
-        Ray apertureRay;
-        Color apertureColor;
-        Point focalPoint = focalPlane.findGeoIntersections(ray).get(0).point;
-        for (Point aperturePoint : aperturePoints) {
-            apertureRay = new Ray(aperturePoint, focalPoint.subtract(aperturePoint));
-            apertureColor = rayTracerBase.traceRay(apertureRay);
-            averageColor = averageColor.add(apertureColor.reduce(numOfPoints));
-        }
-        return averageColor;
-    }
+		double pointsDistance = (apertureSize * 2) / pointsInRow;
+		// calculate the initial point to be the point with coordinates outside the
+		// aperture in the down left point,
+		// so we won`t have to deal with illegal vectors.
+		double s = -(apertureSize + pointsDistance / 2);
+		Point initialPoint = cameraPoint.add(this.vUp.scale(s).add(this.vRight.scale(s)));
+
+		// initializing the points array
+		for (int i = 0; i < pointsInRow; i++) {
+			for (int j = 0; j < pointsInRow; j++) {
+				this.aperturePoints[i + j * pointsInRow] = initialPoint
+						.add(this.vUp.scale((i + 1) * pointsDistance).add(this.vRight.scale((j + 1) * pointsDistance)));
+			}
+		}
+	}
+
+	/**
+	 * averaging the colors of all the rays that were shoot from the aperture points
+	 * to the point where the ray intersects the focal plane.
+	 *
+	 * @param ray The ray that is being traced.
+	 * @return The average color of the image.
+	 */
+	private Color averagedBeamColor(Ray ray) {
+		Color averageColor = Color.BLACK;
+		Ray apertureRay;
+		Color apertureColor;
+		Point focalPoint = focalPlane.findGeoIntersections(ray).get(0).point;
+		for (Point aperturePoint : aperturePoints) {
+			apertureRay = new Ray(aperturePoint, focalPoint.subtract(aperturePoint));
+			apertureColor = rayTracerBase.traceRay(apertureRay);
+			averageColor = averageColor.add(apertureColor.reduce(numOfPoints));
+		}
+		return averageColor;
+	}
 
 }
