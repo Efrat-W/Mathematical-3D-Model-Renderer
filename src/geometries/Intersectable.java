@@ -6,7 +6,6 @@ import static primitives.Util.alignZero;
 
 import java.util.List;
 
-
 /**
  * abstract class Intersectable is an abstract class that represents any
  * Intersectable object.
@@ -15,42 +14,107 @@ import java.util.List;
  */
 
 public abstract class Intersectable {
-    // flag for using the optimization of bvh or not
-    static protected boolean isBVH = false;
+   
+    /**
+     * the box for the bvh
+     */
+    protected Border box = null;
+
+
 
     /**
-     * setter for the functionality of borderable
+     * class Border is a class that represents the box of the bvh
+     * 
+     * @author Efrat Wexler and Sari Zilberlicht
+     *
      */
-    public static void setBVH() {
-	isBVH = true;
-    }
+    public static class Border {
+	/**
+	 * this values represent the minimum point of the geometry
+	 */
+	protected final double minX;
+	protected final double minY;
+	protected final double minZ;
 
-    /**
-     * a boolean flag for each geometry if it already has borders or not
-     */
-    protected boolean isInBox = false;
+	/**
+	 * this values represent the maximum point of the geometry
+	 */
+	protected final double maxX;
+	protected final double maxY;
+	protected final double maxZ;
 
-    /**
-     * this values represent the minimum point of the geometry
-     */
-    public double minX;
-    public double minY;
-    public double minZ;
+	/**
+	 * constructor of a border by values
+	 * 
+	 * @param x1 minimum x
+	 * @param y1 minimum y
+	 * @param z1 minimum z
+	 * @param x2 maximum x
+	 * @param y2 maximum y
+	 * @param z2 maximum z
+	 */
+	public Border(double x1, double y1, double z1, double x2, double y2, double z2) {
+	    minX = x1;
+	    minY = y1;
+	    minZ = z1;
+	    maxX = x2;
+	    maxY = y2;
+	    maxZ = z2;
+	}
 
-    /**
-     * this values represent the maximum point of the geometry
-     */
-    public double maxX;
-    public double maxY;
-    public double maxZ;
+	/**
+	 * getter for minX
+	 * 
+	 * @return minX value
+	 */
+	public double getMinX() {
+	    return minX;
+	}
 
-    /**
-     * find the minimum and the maximum of the geometry border
-     */
-    public final void findMinMaxHelper() {
+	/**
+	 * getter for minY
+	 * 
+	 * @return minY value
+	 */
+	public double getMinY() {
+	    return minY;
+	}
 
-	findMinMax();
-	isInBox = true;
+	/**
+	 * getter for minZ
+	 * 
+	 * @return minZ value
+	 */
+	public double getMinZ() {
+	    return minZ;
+	}
+
+	/**
+	 * getter for maxX
+	 * 
+	 * @return maxX value
+	 */
+	public double getMaxX() {
+	    return maxX;
+	}
+
+	/**
+	 * getter for maxY
+	 * 
+	 * @return maxY value
+	 */
+	public double getMaxY() {
+	    return maxY;
+	}
+
+	/**
+	 * getter for maxZ
+	 * 
+	 * @return maxZ value
+	 */
+	public double getMaxZ() {
+	    return maxZ;
+	}
 
     }
 
@@ -61,15 +125,24 @@ public abstract class Intersectable {
     protected abstract void findMinMax();
 
     /**
-     * the function checks if a ray intersects the bounding volume
+     * getter for the bvh box
      * 
-     * @param ray
-     * @return true if the ray intersects the bounding volume else it returns false
+     * @return the box
      */
-    protected boolean intersectBorderHelper(Ray ray) {
-	if (!isInBox)
-	    findMinMaxHelper();
-	return intersectBorder(ray);
+    public Border getBox() {
+	return box;
+    }
+    
+    /**
+     * setter for the bvh box
+     * 
+     * @param box the box we set
+     * @return this intersectable itself
+     */
+    public Intersectable setBox(Border box) {
+	this.box=box;
+	return this;
+	
     }
 
     /**
@@ -87,6 +160,12 @@ public abstract class Intersectable {
 	double dirX = dir.getX();
 	double dirY = dir.getY();
 	double dirZ = dir.getZ();
+	double minx = box.minX;
+	double maxx = box.maxX;
+	double miny = box.minY;
+	double maxy = box.maxY;
+	double minz = box.minZ;
+	double maxz = box.maxZ;
 
 	// Initially will receive the values of tMinX and tMaxX
 	double tMin;
@@ -94,21 +173,21 @@ public abstract class Intersectable {
 
 	if (alignZero(dirX) >= 0) // the values are depend on the direction of the ray
 	{
-	    tMin = (minX - originX) / dirX; // b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
-	    tMax = (maxX - originX) / dirX;
+	    tMin = (minx - originX) / dirX; // b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
+	    tMax = (maxx - originX) / dirX;
 	} else {
-	    tMin = (maxX - originX) / dirX;
-	    tMax = (minX - originX) / dirX;
+	    tMin = (maxx - originX) / dirX;
+	    tMax = (minx - originX) / dirX;
 	}
 
 	double tMinY;
 	double tMaxY;
 	if (alignZero(dirY) >= 0) {
-	    tMinY = (minY - originY) / dirY;
-	    tMaxY = (maxY - originY) / dirY;
+	    tMinY = (miny - originY) / dirY;
+	    tMaxY = (maxy - originY) / dirY;
 	} else {
-	    tMinY = (maxY - originY) / dirY;
-	    tMaxY = (minY - originY) / dirY;
+	    tMinY = (maxy - originY) / dirY;
+	    tMaxY = (miny - originY) / dirY;
 	}
 
 	// If either the max value of Y is smaller than overall min value, or min value
@@ -129,11 +208,11 @@ public abstract class Intersectable {
 	double tMaxZ;
 
 	if (alignZero(dirZ) >= 0) {
-	    tMinZ = (minZ - originZ) / dirZ;
-	    tMaxZ = (maxZ - originZ) / dirZ;
+	    tMinZ = (minz - originZ) / dirZ;
+	    tMaxZ = (maxz - originZ) / dirZ;
 	} else {
-	    tMinZ = (maxZ - originZ) / dirZ;
-	    tMaxZ = (minZ - originZ) / dirZ;
+	    tMinZ = (maxz - originZ) / dirZ;
+	    tMaxZ = (minz - originZ) / dirZ;
 	}
 
 	// If either the max value of Z is smaller than overall min value, or min value
@@ -217,7 +296,7 @@ public abstract class Intersectable {
      */
     public List<GeoPoint> findGeoIntersections(Ray ray, double dis) {
 	if (isBVH)
-	    if (!intersectBorderHelper(ray))
+	    if (!intersectBorder(ray))
 		return null;
 	return findGeoIntersectionsHelper(ray, dis);
     }

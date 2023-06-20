@@ -31,6 +31,7 @@ public class Plane extends Geometry {
 		Vector v1 = p2.subtract(p1);
 		Vector v2 = p3.subtract(p1);
 		normal = v1.crossProduct(v2).normalize();
+		findMinMax();
 	}
 
 	/**
@@ -74,13 +75,10 @@ public class Plane extends Geometry {
 
 	@Override
 	protected void findMinMax() {
-		minX = Double.NEGATIVE_INFINITY;
-		minY = Double.NEGATIVE_INFINITY;
-		minZ = Double.NEGATIVE_INFINITY;
+	    double min=Double.NEGATIVE_INFINITY;
+	    double max=Double.POSITIVE_INFINITY;
+	    this.box=new Border(min, min, min, max, max, max);
 
-		maxX = Double.POSITIVE_INFINITY;
-		maxY = Double.POSITIVE_INFINITY;
-		maxZ = Double.POSITIVE_INFINITY;
 	}
 
 	@Override

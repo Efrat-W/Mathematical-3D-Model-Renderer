@@ -78,7 +78,7 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	protected void findMinMax() {
-		minX = center.getX() - radius;
+		double minX = center.getX() - radius;
 		maxX = center.getX() + radius;
 		minY = center.getY() - radius;
 		maxY = center.getY() + radius;

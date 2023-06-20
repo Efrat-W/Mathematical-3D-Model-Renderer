@@ -81,6 +81,7 @@ public class Polygon extends Geometry {
 			if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
 				throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
 		}
+		findMinMax();
 	}
 
 	@Override
@@ -142,12 +143,12 @@ public class Polygon extends Geometry {
 
 	@Override
 	protected void findMinMax() {
-		minX = Double.POSITIVE_INFINITY;
-		maxX = Double.NEGATIVE_INFINITY;
-		minY = Double.POSITIVE_INFINITY;
-		maxY = Double.NEGATIVE_INFINITY;
-		minZ = Double.POSITIVE_INFINITY;
-		maxZ = Double.NEGATIVE_INFINITY;
+		double minX = Double.POSITIVE_INFINITY;
+		double maxX = Double.NEGATIVE_INFINITY;
+		double minY = Double.POSITIVE_INFINITY;
+		double maxY = Double.NEGATIVE_INFINITY;
+		double minZ = Double.POSITIVE_INFINITY;
+		double maxZ = Double.NEGATIVE_INFINITY;
 		// Adjust the size of the box according to the vertices
 		for (Point v : vertices) {
 			if (v.getX() < minX)
@@ -163,6 +164,7 @@ public class Polygon extends Geometry {
 			if (v.getZ() > maxZ)
 				maxZ = v.getZ();
 		}
+		this.box=new Border(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
 }
