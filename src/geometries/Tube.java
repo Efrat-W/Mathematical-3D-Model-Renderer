@@ -31,6 +31,7 @@ public class Tube extends RadialGeometry {
 	public Tube(Ray axis_ray, double rad) {
 		super(rad);
 		axisRay = axis_ray;
+		findMinMax();
 	}
 
 	/**
@@ -175,13 +176,9 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	protected void findMinMax() {
-		minX = Double.NEGATIVE_INFINITY;
-		minY = Double.NEGATIVE_INFINITY;
-		minZ = Double.NEGATIVE_INFINITY;
-
-		maxX = Double.POSITIVE_INFINITY;
-		maxY = Double.POSITIVE_INFINITY;
-		maxZ = Double.POSITIVE_INFINITY;
+		 double min=Double.NEGATIVE_INFINITY;
+		    double max=Double.POSITIVE_INFINITY;
+		    this.box=new Border(min, min, min, max, max, max);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package renderer;
 
-import geometries.Intersectable;
 import primitives.*;
 import scene.Scene;
 
@@ -29,14 +28,5 @@ public abstract class RayTracerBase {
 	 */
 	public abstract Color traceRay(Ray r);
 
-	/**
-	 * Setter for the functionality of Conservative Bounding Region/Bounding Volume
-	 * Hierarchy
-	 * 
-	 * @return this
-	 */
-	public RayTracerBase setBVH() {
-		Intersectable.setBVH();
-		return this;
-	}
+	
 }

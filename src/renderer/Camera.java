@@ -7,7 +7,6 @@ import primitives.Vector;
 
 import static primitives.Util.isZero;
 
-import java.util.List;
 import java.util.MissingResourceException;
 
 import geometries.Plane;

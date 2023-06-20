@@ -44,6 +44,7 @@ public class Plane extends Geometry {
 	public Plane(Point p, Vector vec) {
 		q0 = p;
 		normal = vec.normalize();
+		findMinMax();
 	}
 
 	@Override
