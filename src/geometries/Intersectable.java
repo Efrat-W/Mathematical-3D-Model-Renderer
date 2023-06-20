@@ -303,8 +303,6 @@ public abstract class Intersectable {
 	 * @return list of geopoints
 	 */
 	public List<GeoPoint> findGeoIntersections(Ray ray, double dis) {
-		if (!intersectBorder(ray))
-			return null;
 		return findGeoIntersectionsHelper(ray, dis);
 	}
 
