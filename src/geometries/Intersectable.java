@@ -86,6 +86,7 @@ public abstract class Intersectable {
 	 * @return list of geopoints
 	 */
 	public List<GeoPoint> findGeoIntersections(Ray ray, double dis) {
+	    // if box is not null and it is not intersected return null otherwise do the helper:
 		return findGeoIntersectionsHelper(ray, dis);
 	}
 
@@ -106,4 +107,4 @@ public abstract class Intersectable {
 	 */
 	protected abstract  List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis);
 }
-}
+
