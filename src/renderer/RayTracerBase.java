@@ -1,6 +1,6 @@
 package renderer;
 
-import geometries.BoundingBox;
+import geometries.Intersectable;
 import primitives.*;
 import scene.Scene;
 
@@ -36,7 +36,7 @@ public abstract class RayTracerBase {
 	 * @return this
 	 */
 	public RayTracerBase setBVH() {
-		BoundingBox.setBVH();
+		Intersectable.setBVH();
 		return this;
 	}
 }

@@ -11,8 +11,8 @@ import primitives.Ray;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public class Geometries extends BoundingBox {
-	private final List<BoundingBox> geometries = new LinkedList<>();
+public class Geometries extends Intersectable {
+	private final List<Intersectable> geometries = new LinkedList<>();
 
 	/**
 	 * a default constructor
@@ -26,7 +26,7 @@ public class Geometries extends BoundingBox {
 	 * 
 	 * @param geometries geometries to add to list
 	 */
-	public Geometries(BoundingBox... geometries) {
+	public Geometries(Intersectable... geometries) {
 		add(geometries);
 	}
 
@@ -35,12 +35,12 @@ public class Geometries extends BoundingBox {
 	 * 
 	 * @param geometries the geomtries to add
 	 */
-	public void add(BoundingBox... geometries) {
+	public void add(Intersectable... geometries) {
 		this.geometries.addAll(List.of(geometries));
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
 		LinkedList<GeoPoint> toReturn = null;
 		for (Intersectable g : this.geometries) {
 			var lPoints = g.findGeoIntersections(ray, dis);
@@ -64,7 +64,7 @@ public class Geometries extends BoundingBox {
 		/**
 		 * find the minimum and the maximum of the geometry border
 		 */
-		for (BoundingBox g : geometries) {
+		for (Intersectable g : geometries) {
 			g.findMinMax();
 			if (g.minX < minX)
 				minX = g.minX;

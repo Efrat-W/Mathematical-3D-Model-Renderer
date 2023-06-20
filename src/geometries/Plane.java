@@ -60,7 +60,7 @@ public class Plane extends Geometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
 		Point point = ray.getPoint();
 		if (point.equals(this.q0))
 			return null;

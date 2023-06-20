@@ -48,7 +48,7 @@ public class Sphere extends RadialGeometry {
 	}
 
 	@Override
-	public List<GeoPoint> findGeoIntersectionsSpecific(Ray ray, double dis) {
+	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double dis) {
 		Point point = ray.getPoint();
 		if (center.equals(point))
 			return alignZero(radius) > dis ? null : List.of(new GeoPoint(this, ray.getPoint(radius)));

@@ -11,7 +11,7 @@ import primitives.Vector;
  * @author Efrat Wexler and Sari Zilberlicht
  */
 
-public abstract class Geometry extends BoundingBox {
+public abstract class Geometry extends Intersectable {
 	/**
 	 * emission light of the shapes
 	 */
@@ -48,7 +48,7 @@ public abstract class Geometry extends BoundingBox {
 	}
 
 	/**
-	 * getter for geomtry material
+	 * getter for geometry material
 	 * 
 	 * @return material
 	 */
@@ -57,7 +57,7 @@ public abstract class Geometry extends BoundingBox {
 	}
 
 	/**
-	 * a setter for geomtry material
+	 * a setter for geometry material
 	 * 
 	 * @param mat material of the geometry
 	 * @return this geometry
