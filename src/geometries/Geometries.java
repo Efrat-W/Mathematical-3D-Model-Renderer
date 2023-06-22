@@ -1,7 +1,9 @@
 package geometries;
 
+//import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import primitives.Ray;
 
 /**
@@ -13,6 +15,7 @@ import primitives.Ray;
 
 public class Geometries extends Intersectable {
 	private final List<Intersectable> geometries = new LinkedList<>();
+	private final List<Intersectable> infinites = new LinkedList<>();
 
 	/**
 	 * a default constructor
@@ -31,13 +34,61 @@ public class Geometries extends Intersectable {
 	}
 
 	/**
+	 * constructor that gets several intersectables and add them to the geometries
+	 * list
+	 * 
+	 * @param geometries geometries to add to list
+	 */
+	public Geometries(List<Intersectable> geometries) {
+		add(geometries);
+	}
+
+	/**
 	 * adds geometries to the list
 	 * 
 	 * @param geometries the geomtries to add
 	 */
 	public void add(Intersectable... geometries) {
-		this.geometries.addAll(List.of(geometries));
-		findMinMax();
+		add(List.of(geometries));
+	}
+
+	/**
+	 * adds geometries to the list
+	 * 
+	 * @param geometries the geomtries to add
+	 */
+	public void add(List<Intersectable> geometries) {
+		if (!cbr) {
+			this.geometries.addAll(geometries);
+			return;
+		}
+
+		for (var g : geometries) {
+			if (g.box == null)
+				infinites.add(g);
+			else {
+				this.geometries.add(g);
+				if (infinites.isEmpty()) {
+					if (box == null)
+						box = new Border();
+					if (g.box.minX < box.minX)
+						box.minX = g.box.minX;
+					if (g.box.minY < box.minY)
+						box.minY = g.box.minY;
+					if (g.box.minZ < box.minZ)
+						box.minZ = g.box.minZ;
+					if (g.box.maxX > box.maxX)
+						box.maxX = g.box.maxX;
+					if (g.box.maxY > box.maxY)
+						box.maxY = g.box.maxY;
+					if (g.box.maxZ > box.maxZ)
+						box.maxZ = g.box.maxZ;
+				}
+			}
+		}
+		// if there are inifinite objects
+		if (!infinites.isEmpty())
+			box = null;
 	}
 
 	@Override
@@ -45,135 +96,135 @@ public class Geometries extends Intersectable {
 		LinkedList<GeoPoint> toReturn = null;
 		for (Intersectable g : this.geometries) {
 			var lPoints = g.findGeoIntersections(ray, dis);
-			if (lPoints != null) {
+			if (lPoints != null)
 				if (toReturn == null)
-					toReturn = new LinkedList<>();
-				toReturn.addAll(lPoints);
-			}
+					toReturn = new LinkedList<>(lPoints);
+				else
+					toReturn.addAll(lPoints);
+		}
+		for (Intersectable g : this.infinites) {
+			var lPoints = g.findGeoIntersections(ray, dis);
+			if (lPoints != null)
+				if (toReturn == null)
+					toReturn = new LinkedList<>(lPoints);
+				else
+					toReturn.addAll(lPoints);
 		}
 		return toReturn;
-	}
-
-	@Override
-	protected void findMinMax() {
-		double minX = Double.POSITIVE_INFINITY;
-		double maxX = Double.NEGATIVE_INFINITY;
-		double minY = Double.POSITIVE_INFINITY;
-		double maxY = Double.NEGATIVE_INFINITY;
-		double minZ = Double.POSITIVE_INFINITY;
-		double maxZ = Double.NEGATIVE_INFINITY;
-
-		/**
-		 * find the minimum and the maximum of the geometry border
-		 */
-		for (Intersectable g : geometries) {
-
-			double gminX = g.getBox().getMinX();
-			double gmaxX = g.getBox().getMaxX();
-			double gminY = g.getBox().getMinY();
-			double gmaxY = g.getBox().getMaxY();
-			double gminZ = g.getBox().getMinZ();
-			double gmaxZ = g.getBox().getMaxZ();
-
-			if (gminX < minX)
-				minX = gminX;
-			if (gminY < minY)
-				minY = gminY;
-			if (gminZ < minZ)
-				minZ = gminZ;
-			if (gmaxX > maxX)
-				maxX = gmaxX;
-			if (gmaxY > maxY)
-				maxY = gmaxY;
-			if (gmaxZ > maxZ)
-				maxZ = gmaxZ;
-		}
-		this.box = new Border(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
 	/**
 	 * create the hierarchy and put into the right boxes
 	 */
-	public void BVH() {
+	public void setBVH() {
+		if (!cbr)
+			return;
 		// min amount of geometries in a box is 2
-		if (geometries.size() <= 2) {
+		if (geometries.size() <= 4)
+			return;
+
+		if (box == null) {
+			var finites = new Geometries(geometries);
+			geometries.clear();
+			geometries.add(finites);
 			return;
 		}
-		Geometries l = new Geometries();
-		Geometries r = new Geometries();
 
-		//which axis we are reffering to
-		char axis = 'x';
-		
-		double x = box.getMaxX() - box.getMinX();
-		double y = box.getMaxY() - box.getMinY();
-		double z = box.getMaxZ() - box.getMinZ();
+		double x = box.maxX - box.minX;
+		double y = box.maxY - box.minY;
+		double z = box.maxZ - box.minZ;
+		// which axis we are reffering to
+		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
+//		Collections.sort(geometries, //
+//				(i1, i2) -> Double.compare(average(i1, axis), average(i2, axis)));
 
-		if (y > x && y > z) {
-			axis = 'y';
+		var l = new Geometries();
+		var m = new Geometries();
+		var r = new Geometries();
+		double midX = (box.maxX + box.minX) / 2;
+		double midY = (box.maxY + box.minY) / 2;
+		double midZ = (box.maxZ + box.minZ) / 2;
+		switch (axis) {
+		case 'x':
+			for (var g : geometries) {
+				if (g.box.minX > midX)
+					r.add(g);
+				else if (g.box.maxX < midX)
+					l.add(g);
+				else
+					m.add(g);
+			}
+			break;
+		case 'y':
+			for (var g : geometries) {
+				if (g.box.minY > midY)
+					r.add(g);
+				else if (g.box.maxY < midY)
+					l.add(g);
+				else
+					m.add(g);
+			}
+			break;
+		case 'z':
+			for (var g : geometries) {
+				if (g.box.minZ > midZ)
+					r.add(g);
+				else if (g.box.maxZ < midZ)
+					l.add(g);
+				else
+					m.add(g);
+			}
+			break;
 		}
-		if (z > x && z > y) {
-			axis = 'z';
-		}
-
-		Sort(geometries, axis);
 
 		// add geometries to the splitted boxes
-		for (int i = 0; i < geometries.size() / 2; i++) {
-			l.add(geometries.get(i));
-		}
-		for (int i = geometries.size() / 2; i < geometries.size(); i++) {
-			r.add(geometries.get(i));
-		}
-		l.BVH();
-		r.BVH();
+//		int counter = 0;
+//		int middle = geometries.size() / 2;
+//		for (var g : geometries)
+//			if (counter++ <= middle)
+//				l.add(g);
+//			else
+//				r.add(g);
 
 		geometries.clear();
-		geometries.add(l);
-		geometries.add(r);
-	}
+		if (l.geometries.size() <= 2)
+			geometries.addAll(l.geometries);
+		else {
+			l.setBVH();
+			geometries.add(l);
+		}
 
-	/**
-	 * bubble sort for the geometries
-	 * 
-	 * @param lst the list of the geometries
-	 * @param ch the axis that we are sorting the geometries by
-	 */
-	private void Sort(List<Intersectable> lst, char ch) {
-		int n = lst.size();
+		if (m.geometries.size() <= 2)
+			geometries.addAll(m.geometries);
+		else
+			geometries.add(m);
 		
-		for (int i = 0; i < n - 1; i++)
-			for (int j = 0; j < n - i - 1; j++) {
-				
-				Intersectable iJ = lst.get(j);
-				Intersectable iJ1 = lst.get(j+1);
-
-				if (average(iJ, ch) > average(iJ1, ch)) {
-					// swap arr[j+1] and arr[j]
-					Intersectable b = iJ;
-					lst.set(j, iJ1);
-					lst.set(j + 1, b);
-				}
-			}
+		if (r.geometries.size() <= 2)
+			geometries.addAll(r.geometries);
+		else {
+			r.setBVH();
+			geometries.add(r);
+		}
 	}
 
 	/**
-	 * find the average of the box borders relative to the axis 
+	 * find the average of the box borders relative to the axis
 	 * 
 	 * @param g  the geometry/ies (intersectable)
 	 * @param ch the longest axis
 	 * @return the average of the box borders
 	 */
-	private double average(Intersectable g, char ch) {
-		Border b = g.getBox();
-
-		if (ch == 'x')
-			return (b.getMaxX() + b.getMinX()) / 2;
-
-		else if (ch == 'y')
-			return (b.getMaxY() + b.getMinY()) / 2;
-
-		return (b.getMaxZ() + b.getMinZ()) / 2;
-	}
+//	private double average(Intersectable g, char ch) {
+//		switch (ch) {
+//		case 'x':
+//			return (g.box.maxX + g.box.minX) / 2;
+//		case 'y':
+//			return (g.box.maxY + g.box.minY) / 2;
+//		case 'z':
+//			return (g.box.maxZ + g.box.minZ) / 2;
+//		default:
+//			throw new IllegalArgumentException("wrong axis name");
+//		}
+//	}
 
 }

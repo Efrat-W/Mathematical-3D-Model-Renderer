@@ -132,7 +132,7 @@ class DepthOfFieldTests {
 
 		);
 
-		scene.geometries.BVH();
+		scene.geometries.setBVH();
 		scene.lights.add(new DirectionalLight(new Color(YELLOW), new Vector(0, -1, 0)));
 		scene.lights
 				.add(new SpotLight(new Color(WHITE), new Point(100, 100, 400), new Vector(-1, -1, -1)).setKq(0.000001));
@@ -228,7 +228,7 @@ class DepthOfFieldTests {
 				new Sphere(new Point(15, -17, 930), 6).setEmission(new Color(255, 153, 0)) //
 						.setMaterial(new Material().setKd(0.8).setKs(0.2).setShininess(200).setKr(0.1)),
 
-//				//clouds
+				// clouds
 
 				new Sphere(new Point(-11, 40, 805), 10).setEmission(new Color(white)) //
 						.setMaterial(new Material().setKd(0.8).setKs(0.2).setShininess(200).setKt(0.8)),
@@ -270,4 +270,33 @@ class DepthOfFieldTests {
 				.writeToImage(); //
 
 	}
+
+	@Test
+	void test() {
+		Color yellowColor = new Color(YELLOW);
+		Material sphereMaterial = new Material().setKd(0.8).setKs(0.2).setShininess(200).setKr(0.1);
+
+		Scene scene = new Scene("Test scene") //
+				.setCBR() //
+				;
+		for (int i = -100; i <= 100; i += 5)
+			for (int j = -50; j <= 50; j += 5)
+				scene.geometries.add(
+						new Sphere(new Point(i, j, 800), 0.5).setEmission(yellowColor).setMaterial(sphereMaterial));
+
+		scene.lights.add(new DirectionalLight(new Color(YELLOW), new Vector(0, 1, 0)));
+		scene.lights
+				.add(new SpotLight(new Color(WHITE), new Point(100, 100, 1000), new Vector(1, -1, 1)).setKq(0.000001));
+
+		scene.setBVH();
+
+		new Camera(new Point(3, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+				.setVPSize(1000, 1000) //
+				.setVPDistance(1000) //
+				.setImageWriter(new ImageWriter("lightSphereDirectionalDepthOfFieldTesting3", 2000, 2000)) //
+				.setRayTracer(new RayTracerBasic(scene)) //
+				.renderImage() //
+				.writeToImage(); //
+	}
+
 }

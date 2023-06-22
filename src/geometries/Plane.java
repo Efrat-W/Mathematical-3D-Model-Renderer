@@ -31,7 +31,6 @@ public class Plane extends Geometry {
 		Vector v1 = p2.subtract(p1);
 		Vector v2 = p3.subtract(p1);
 		normal = v1.crossProduct(v2).normalize();
-		findMinMax();
 	}
 
 	/**
@@ -44,7 +43,6 @@ public class Plane extends Geometry {
 	public Plane(Point p, Vector vec) {
 		q0 = p;
 		normal = vec.normalize();
-		findMinMax();
 	}
 
 	@Override
@@ -72,14 +70,6 @@ public class Plane extends Geometry {
 			return null;
 		double t = alignZero(numerator / denominator);
 		return t <= 0 || alignZero(t - dis) > 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
-	}
-
-	@Override
-	protected void findMinMax() {
-	    double min=Double.NEGATIVE_INFINITY;
-	    double max=Double.POSITIVE_INFINITY;
-	    this.box=new Border(min, min, min, max, max, max);
-
 	}
 
 	@Override

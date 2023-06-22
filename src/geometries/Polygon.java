@@ -52,7 +52,23 @@ public class Polygon extends Geometry {
 		// polygon with this plane.
 		// The plane holds the invariant normal (orthogonal unit) vector to the polygon
 		plane = new Plane(vertices[0], vertices[1], vertices[2]);
-		findMinMax();
+		if (cbr) {
+			box = new Border();
+			for (var v : this.vertices) {
+				if (v.getX() < box.minX)
+					box.minX = v.getX();
+				if (v.getY() < box.minY)
+					box.minY = v.getY();
+				if (v.getZ() < box.minZ)
+					box.minZ = v.getZ();
+				if (v.getX() > box.maxX)
+					box.maxX = v.getX();
+				if (v.getY() > box.maxY)
+					box.maxY = v.getY();
+				if (v.getZ() > box.maxZ)
+					box.maxZ = v.getZ();
+			}
+		}
 		if (size == 3)
 			return; // no need for more tests for a Triangle
 
@@ -140,31 +156,4 @@ public class Polygon extends Geometry {
 	public Vector getNormal(Point point) {
 		return plane.getNormal();
 	}
-
-	@Override
-	protected void findMinMax() {
-		double minX = Double.POSITIVE_INFINITY;
-		double maxX = Double.NEGATIVE_INFINITY;
-		double minY = Double.POSITIVE_INFINITY;
-		double maxY = Double.NEGATIVE_INFINITY;
-		double minZ = Double.POSITIVE_INFINITY;
-		double maxZ = Double.NEGATIVE_INFINITY;
-		// Adjust the size of the box according to the vertices
-		for (Point v : vertices) {
-			if (v.getX() < minX)
-				minX = v.getX();
-			if (v.getX() > maxX)
-				maxX = v.getX();
-			if (v.getY() < minY)
-				minY = v.getY();
-			if (v.getY() > maxY)
-				maxY = v.getY();
-			if (v.getZ() < minZ)
-				minZ = v.getZ();
-			if (v.getZ() > maxZ)
-				maxZ = v.getZ();
-		}
-		this.box=new Border(minX, minY, minZ, maxX, maxY, maxZ);
-	}
-
 }

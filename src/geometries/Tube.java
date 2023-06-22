@@ -31,7 +31,6 @@ public class Tube extends RadialGeometry {
 	public Tube(Ray axis_ray, double rad) {
 		super(rad);
 		axisRay = axis_ray;
-		findMinMax();
 	}
 
 	/**
@@ -143,42 +142,29 @@ public class Tube extends RadialGeometry {
 			// the ray starts before point 1
 			if (!(alignZero(p1.point.subtract(pointA).dotProduct(vectorA)) < 0.0)
 					&& !(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - distance) <= 0
-					&& alignZero(t2 - distance) <= 0) {
+					&& alignZero(t2 - distance) <= 0)
 				return List.of(p1, p2);
-			}
-		} catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ignore) {
 			// the ray starts at point1
-
 		}
 
 		try {
 			// the ray starts before point 1
-			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - distance) <= 0) {
+			if (!(p1.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t1 - distance) <= 0)
 				return List.of(p1);
-			}
-		} catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ignore) {
 			// the ray starts at point1
 		}
 
 		try {
 			// the ray starts before point 2
-			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t2 - distance) <= 0) {
+			if (!(p2.point.subtract(pointA).dotProduct(vectorA) < 0.0) && alignZero(t2 - distance) <= 0)
 				return List.of(p2);
-			}
-		} catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ignore) {
 			// the ray starts at point2
-
 		}
 
 		return null;
-
-	}
-
-	@Override
-	protected void findMinMax() {
-		 double min=Double.NEGATIVE_INFINITY;
-		    double max=Double.POSITIVE_INFINITY;
-		    this.box=new Border(min, min, min, max, max, max);
 	}
 
 	@Override

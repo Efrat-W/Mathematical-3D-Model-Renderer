@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import geometries.Geometries;
+import geometries.Intersectable;
 import lighting.AmbientLight;
 import lighting.LightSource;
 import primitives.Color;
@@ -86,6 +87,26 @@ public class Scene {
 	 */
 	public Scene setLights(LightSource... ls) {
 		lights.addAll(List.of(ls));
+		return this;
+	}
+
+	/**
+	 * Sets Conservative Bounding Region for creating the scene (for its 3D model).<br>
+	 * It must be called <b><u>before</u></b> creating the 3D model (adding bodyes to the scene).
+	 * @return scene object itself
+	 */
+	public Scene setCBR() {
+		Intersectable.setCbr();
+		return this;
+	}
+
+	/**
+	 * Creates Bounding Volume Hierarchy in the scene's 3D model<br>
+	 * It must be called <b><u>after</u></b> creating the 3D model (adding bodyes to the scene).
+	 * @return scene object itself
+	 */
+	public Scene setBVH() {
+		geometries.setBVH();	
 		return this;
 	}
 }

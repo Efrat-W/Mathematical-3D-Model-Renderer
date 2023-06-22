@@ -26,7 +26,15 @@ public class Sphere extends RadialGeometry {
 	public Sphere(Point p, double rad) {
 		super(rad);
 		center = p;
-		findMinMax();
+		if (cbr) {
+			double minX = center.getX() - radius;
+			double maxX = center.getX() + radius;
+			double minY = center.getY() - radius;
+			double maxY = center.getY() + radius;
+			double minZ = center.getZ() - radius;
+			double maxZ = center.getZ() + radius;
+			this.box= new Border(minX, minY, minZ, maxX, maxY, maxZ);
+		}
 	}
 
 	/**
@@ -75,17 +83,6 @@ public class Sphere extends RadialGeometry {
 		// 2nd point is inside
 		return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2))) //
 				: List.of(new GeoPoint(this, ray.getPoint(t2)), new GeoPoint(this, ray.getPoint(t1)));
-	}
-
-	@Override
-	protected void findMinMax() {
-		double minX = center.getX() - radius;
-		double maxX = center.getX() + radius;
-		double minY = center.getY() - radius;
-		double maxY = center.getY() + radius;
-		double minZ = center.getZ() - radius;
-		double maxZ = center.getZ() + radius;
-		this.box= new Border(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 
 }
