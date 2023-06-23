@@ -1,13 +1,12 @@
 package renderer;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
+import static primitives.Util.*;
 
-import static primitives.Util.isZero;
+import renderer.PixelManager.Pixel;
 
 import java.util.MissingResourceException;
+import java.util.LinkedList;
 
 import geometries.Plane;
 
@@ -36,6 +35,10 @@ public class Camera {
 	private double apertureSize;
 
 	private int numOfPoints;
+
+	private int threadsCount = 0;
+	private double printInterval = 0;
+	private PixelManager pixelManager;
 
 	/**
 	 * return the camera point (position)
@@ -166,6 +169,20 @@ public class Camera {
 		return this;
 	}
 
+	public Camera setMultiThreading(int threads) {
+		if (threads < 0)
+			throw new IllegalArgumentException("number of threads must not be negative");
+		threadsCount = threads;
+		return this;
+	}
+
+	public Camera setDebugPrint(double interval) {
+		if (interval < 0)
+			throw new IllegalArgumentException("print interval must not be negative");
+		printInterval = interval;
+		return this;
+	}
+
 	/**
 	 * create a ray through the center of the pixel
 	 * 
@@ -199,15 +216,11 @@ public class Camera {
 	 * 
 	 * @param col column number in View Plane
 	 * @param row row number in View Plane
-	 * @return
 	 */
-	private Color castRay(int col, int row, int nx, int ny) {
-
+	private void castRay(int col, int row, int nx, int ny) {
 		Ray ray = constructRay(nx, ny, col, row);
-		if (dofFlag) // if there is the improvement of depth of filed
-			return averagedBeamColor(ray);
-
-		return rayTracerBase.traceRay(ray);
+		imgWriter.writePixel(col, row, dofFlag ? averagedBeamColor(ray) : rayTracerBase.traceRay(ray));
+		pixelManager.pixelDone();
 	}
 
 	/**
@@ -221,9 +234,29 @@ public class Camera {
 			throw new MissingResourceException("missing filed in camera", "", "");
 		int nx = imgWriter.getNx();
 		int ny = imgWriter.getNy();
-		for (int x = 0; x < nx; x++) {
-			for (int y = 0; y < ny; y++) {
-				imgWriter.writePixel(x, y, castRay(x, y, nx, ny));
+		pixelManager = new PixelManager(ny, nx, printInterval);
+		if (threadsCount == 0)
+			for (int x = 0; x < nx; x++)
+				for (int y = 0; y < ny; y++)
+					castRay(x, y, nx, ny);
+		else {
+			var threads = new LinkedList<Thread>(); // list of threads
+			while (threadsCount-- > 0) // add appropriate number of threads
+				threads.add(new Thread(() -> { // add a thread with its code
+					Pixel pixel; // current pixel(row,col)
+					// allocate pixel(row,col) in loop until there are no more pixels
+					while ((pixel = pixelManager.nextPixel()) != null)
+						// cast ray through pixel (and color it – inside castRay)
+						castRay(pixel.col(), pixel.row(), nx, ny);
+				}));
+			// start all the threads
+			for (var thread : threads)
+				thread.start();
+			// wait until all the threads have finished
+			try {
+				for (var thread : threads)
+					thread.join();
+			} catch (InterruptedException ignore) {
 			}
 		}
 		return this;
@@ -234,8 +267,9 @@ public class Camera {
 	 * 
 	 * @param interval the size of each square of the grid
 	 * @param color    the grid color
+	 * @return this camera
 	 */
-	public void printGrid(int interval, Color color) {
+	public Camera printGrid(int interval, Color color) {
 		if (imgWriter == null)
 			throw new MissingResourceException("missing filed in camera", "", "");
 		int nx = imgWriter.getNx();
@@ -246,6 +280,7 @@ public class Camera {
 					imgWriter.writePixel(x, y, color);
 			}
 		}
+		return this;
 	}
 
 	/**
@@ -263,7 +298,7 @@ public class Camera {
 	 * @param depthOfFiled If true, the camera will have a depth of field effect.
 	 * @return The camera itself.
 	 */
-	public Camera setDoFFlag(boolean depthOfFiled) {
+	public Camera setDofFlag(boolean depthOfFiled) {
 		dofFlag = depthOfFiled;
 		return this;
 	}

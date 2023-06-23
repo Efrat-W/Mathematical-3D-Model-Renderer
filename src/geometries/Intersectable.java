@@ -13,6 +13,9 @@ import java.util.List;
 
 public abstract class Intersectable {
 	protected static boolean cbr = false;
+
+	public static long boxCheckCounter = 0;
+	public static long intersectionCounter = 0;
 	
 	/**
 	 * the box for the bvh
@@ -74,7 +77,9 @@ public abstract class Intersectable {
 		 * @param ray the crosses ray
 		 * @return true for intersection, false for not intersection
 		 */
-		protected boolean intersect(Ray ray) {
+		protected boolean intersect(Ray ray, double dis) {
+			//++boxCheckCounter;
+			
 			Point origin = ray.getPoint();
 			double originX = origin.getX();
 			double originY = origin.getY();
@@ -85,24 +90,25 @@ public abstract class Intersectable {
 			double dirZ = dir.getZ();
 
 			// Initially will receive the values of tMinX and tMaxX
-			double tMin;
-			double tMax;
+			double tMin = Double.NEGATIVE_INFINITY;
+			double tMax = Double.POSITIVE_INFINITY;
 
 			// the values are depend on the direction of the ray
-			if (dirX >= 0) {
+
+			if (dirX > 0) {
 				tMin = (minX - originX) / dirX; // b=D*t+O => y=mx+b =>dirx*tmin+originx=minx
 				tMax = (maxX - originX) / dirX;
-			} else {
+			} else if (dirX < 0) {
 				tMin = (maxX - originX) / dirX;
 				tMax = (minX - originX) / dirX;
 			}
 
-			double tMinY;
-			double tMaxY;
-			if (dirY >= 0) {
+			double tMinY = Double.NEGATIVE_INFINITY;
+			double tMaxY = Double.POSITIVE_INFINITY;
+			if (dirY > 0) {
 				tMinY = (minY - originY) / dirY;
 				tMaxY = (maxY - originY) / dirY;
-			} else {
+			} else if (dirY < 0) {
 				tMinY = (maxY - originY) / dirY;
 				tMaxY = (minY - originY) / dirY;
 			}
@@ -120,12 +126,12 @@ public abstract class Intersectable {
 			if (tMaxY < tMax)
 				tMax = tMaxY;
 
-			double tMinZ;
-			double tMaxZ;
-			if (dirZ >= 0) {
+			double tMinZ = Double.NEGATIVE_INFINITY;
+			double tMaxZ = Double.POSITIVE_INFINITY;
+			if (dirZ > 0) {
 				tMinZ = (minZ - originZ) / dirZ;
 				tMaxZ = (maxZ - originZ) / dirZ;
-			} else {
+			} else if (dirZ < 0) {
 				tMinZ = (maxZ - originZ) / dirZ;
 				tMaxZ = (minZ - originZ) / dirZ;
 			}
@@ -207,7 +213,7 @@ public abstract class Intersectable {
 	int c = 0;
 
 	public List<GeoPoint> findGeoIntersections(Ray ray) {
-		return box != null && !box.intersect(ray) ? null : findGeoIntersectionsHelper(ray, Double.POSITIVE_INFINITY);
+		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -218,8 +224,8 @@ public abstract class Intersectable {
 	 * @param dis the maximum distance
 	 * @return list of geopoints
 	 */
-	public List<GeoPoint> findGeoIntersections(Ray ray, double dis) {
-		return findGeoIntersectionsHelper(ray, dis);
+	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDis) {
+		return box != null && !box.intersect(ray, maxDis) ? null : findGeoIntersectionsHelper(ray, maxDis);
 	}
 
 	/**
