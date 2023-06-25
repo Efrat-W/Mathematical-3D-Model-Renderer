@@ -169,6 +169,11 @@ public class Camera {
 		return this;
 	}
 
+	/**
+	 * amount of threads setter for multi-threading 
+	 * @param threads number of threads to run at the same time
+	 * @return camera (builder)
+	 */
 	public Camera setMultiThreading(int threads) {
 		if (threads < 0)
 			throw new IllegalArgumentException("number of threads must not be negative");
@@ -176,6 +181,11 @@ public class Camera {
 		return this;
 	}
 
+	/**
+	 * interval setter for debug print
+	 * @param interval the print interval
+	 * @return camera (builder)
+	 */
 	public Camera setDebugPrint(double interval) {
 		if (interval < 0)
 			throw new IllegalArgumentException("print interval must not be negative");

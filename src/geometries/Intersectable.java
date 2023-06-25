@@ -12,10 +12,11 @@ import java.util.List;
  */
 
 public abstract class Intersectable {
+	/**
+	 * a flag for building cbr boxws or not
+	 */
 	protected static boolean cbr = false;
 
-	public static long boxCheckCounter = 0;
-	public static long intersectionCounter = 0;
 	
 	/**
 	 * the box for the bvh
@@ -29,18 +30,31 @@ public abstract class Intersectable {
 	 *
 	 */
 	public static class Border {
+		
 		/**
-		 * this values represent the minimum point of the geometry
+		 * minimum x value point of the geometry
 		 */
 		protected double minX;
+		/**
+		 * minimum y value point of the geometry
+		 */
 		protected double minY;
+		/**
+		 * minimum z value point of the geometry
+		 */
 		protected double minZ;
 
 		/**
-		 * this values represent the maximum point of the geometry
+		 * maximum x value point of the geometry
 		 */
 		protected double maxX;
+		/**
+		 * maximum x value point of the geometry
+		 */
 		protected double maxY;
+		/**
+		 * maximum x value point of the geometry
+		 */
 		protected double maxZ;
 
 		/**
@@ -62,6 +76,10 @@ public abstract class Intersectable {
 			maxZ = z2;
 		}
 
+
+		/**
+		 * default constructor for bvh boxes
+		 */
 		public Border() {
 			minX = Double.POSITIVE_INFINITY;
 			maxX = Double.NEGATIVE_INFINITY;
@@ -75,11 +93,10 @@ public abstract class Intersectable {
 		 * this function calculate if the ray trace the border of the geometry
 		 * 
 		 * @param ray the crosses ray
+		 * @param dis distance
 		 * @return true for intersection, false for not intersection
 		 */
-		protected boolean intersect(Ray ray, double dis) {
-			//++boxCheckCounter;
-			
+		protected boolean intersect(Ray ray, double dis) {			
 			Point origin = ray.getPoint();
 			double originX = origin.getX();
 			double originY = origin.getY();
@@ -145,6 +162,9 @@ public abstract class Intersectable {
 
 	}
 
+/**
+ * setter for Conservative Bounding Region flag
+ */
 	public static void setCbr() {
 		Intersectable.cbr = true;
 	}
@@ -207,11 +227,9 @@ public abstract class Intersectable {
 	/**
 	 * find all intersections with the ray (points and geometries)
 	 * 
-	 * @param ray ray that intersect
+	 * @param ray intersection ray
 	 * @return list of geopoints
 	 */
-	int c = 0;
-
 	public List<GeoPoint> findGeoIntersections(Ray ray) {
 		return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
 	}
@@ -221,7 +239,7 @@ public abstract class Intersectable {
 	 * distance
 	 * 
 	 * @param ray ray that intersect
-	 * @param dis the maximum distance
+	 * @param maxDis the maximum distance
 	 * @return list of geopoints
 	 */
 	public List<GeoPoint> findGeoIntersections(Ray ray, double maxDis) {
