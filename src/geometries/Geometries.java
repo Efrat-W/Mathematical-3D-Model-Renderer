@@ -135,8 +135,6 @@ public class Geometries extends Intersectable {
 		double z = box.maxZ - box.minZ;
 		// which axis we are reffering to
 		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
-//		Collections.sort(geometries, //
-//				(i1, i2) -> Double.compare(average(i1, axis), average(i2, axis)));
 
 		var l = new Geometries();
 		var m = new Geometries();
@@ -177,14 +175,6 @@ public class Geometries extends Intersectable {
 			break;
 		}
 
-		// add geometries to the splitted boxes
-//		int counter = 0;
-//		int middle = geometries.size() / 2;
-//		for (var g : geometries)
-//			if (counter++ <= middle)
-//				l.add(g);
-//			else
-//				r.add(g);
 
 		geometries.clear();
 		if (l.geometries.size() <= 2)
@@ -206,25 +196,5 @@ public class Geometries extends Intersectable {
 			geometries.add(r);
 		}
 	}
-
-	/**
-	 * find the average of the box borders relative to the axis
-	 * 
-	 * @param g  the geometry/ies (intersectable)
-	 * @param ch the longest axis
-	 * @return the average of the box borders
-	 */
-//	private double average(Intersectable g, char ch) {
-//		switch (ch) {
-//		case 'x':
-//			return (g.box.maxX + g.box.minX) / 2;
-//		case 'y':
-//			return (g.box.maxY + g.box.minY) / 2;
-//		case 'z':
-//			return (g.box.maxZ + g.box.minZ) / 2;
-//		default:
-//			throw new IllegalArgumentException("wrong axis name");
-//		}
-//	}
 
 }
