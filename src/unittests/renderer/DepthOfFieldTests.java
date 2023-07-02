@@ -18,7 +18,7 @@ import renderer.*;
 class DepthOfFieldTests {
 
 	/**
-	 *  test DepthofFoield, creating a picture of flowers in a the nature 
+	 * test DepthofFoield, creating a picture of flowers in a the nature
 	 */
 	@Test
 	void testDepthOfField2() {
@@ -149,7 +149,6 @@ class DepthOfFieldTests {
 //				.printGrid(150, new Color(BLUE)) //
 				.writeToImage(); //
 	}
-
 
 	/**
 	 * balls in a matrix

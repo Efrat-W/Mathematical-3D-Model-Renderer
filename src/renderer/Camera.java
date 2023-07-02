@@ -170,7 +170,8 @@ public class Camera {
 	}
 
 	/**
-	 * amount of threads setter for multi-threading 
+	 * amount of threads setter for multi-threading
+	 * 
 	 * @param threads number of threads to run at the same time
 	 * @return camera (builder)
 	 */
@@ -183,6 +184,7 @@ public class Camera {
 
 	/**
 	 * interval setter for debug print
+	 * 
 	 * @param interval the print interval
 	 * @return camera (builder)
 	 */

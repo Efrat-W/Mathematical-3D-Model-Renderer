@@ -17,7 +17,6 @@ public abstract class Intersectable {
 	 */
 	protected static boolean cbr = false;
 
-	
 	/**
 	 * the box for the bvh
 	 */
@@ -30,7 +29,7 @@ public abstract class Intersectable {
 	 *
 	 */
 	public static class Border {
-		
+
 		/**
 		 * minimum x value point of the geometry
 		 */
@@ -76,7 +75,6 @@ public abstract class Intersectable {
 			maxZ = z2;
 		}
 
-
 		/**
 		 * default constructor for bvh boxes
 		 */
@@ -88,7 +86,7 @@ public abstract class Intersectable {
 			minZ = Double.POSITIVE_INFINITY;
 			maxZ = Double.NEGATIVE_INFINITY;
 		}
-		
+
 		/**
 		 * this function calculate if the ray trace the border of the geometry
 		 * 
@@ -96,7 +94,7 @@ public abstract class Intersectable {
 		 * @param dis distance
 		 * @return true for intersection, false for not intersection
 		 */
-		protected boolean intersect(Ray ray, double dis) {			
+		protected boolean intersect(Ray ray, double dis) {
 			Point origin = ray.getPoint();
 			double originX = origin.getX();
 			double originY = origin.getY();
@@ -162,13 +160,12 @@ public abstract class Intersectable {
 
 	}
 
-/**
- * setter for Conservative Bounding Region flag
- */
+	/**
+	 * setter for Conservative Bounding Region flag
+	 */
 	public static void setCbr() {
 		Intersectable.cbr = true;
 	}
-
 
 	/**
 	 * finds all intersection points with a given ray and the intersectable
@@ -238,7 +235,7 @@ public abstract class Intersectable {
 	 * find all intersections with the ray (points and geometries) with limited
 	 * distance
 	 * 
-	 * @param ray ray that intersect
+	 * @param ray    ray that intersect
 	 * @param maxDis the maximum distance
 	 * @return list of geopoints
 	 */

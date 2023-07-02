@@ -27,7 +27,7 @@ public class ShadowTests {
 			.setRayTracer(new RayTracerBasic(scene));
 
 	/**
-	 *  Helper function for the tests in this module
+	 * Helper function for the tests in this module
 	 */
 	void sphereTriangleHelper(String pictName, Triangle triangle, Point spotLocation) {
 		scene.geometries.add(sphere, triangle.setEmission(new Color(BLUE)).setMaterial(trMaterial));

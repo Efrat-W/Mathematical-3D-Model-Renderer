@@ -1,6 +1,5 @@
 package geometries;
 
-//import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -117,84 +116,101 @@ public class Geometries extends Intersectable {
 	 * create the hierarchy and put into the right boxes
 	 */
 	public void setBVH() {
-		if (!cbr)
-			return;
-		// min amount of geometries in a box is 2
-		if (geometries.size() <= 4)
-			return;
-
-		if (box == null) {
-			var finites = new Geometries(geometries);
-			geometries.clear();
-			geometries.add(finites);
-			return;
-		}
-
 		double x = box.maxX - box.minX;
 		double y = box.maxY - box.minY;
 		double z = box.maxZ - box.minZ;
 		// which axis we are reffering to
-		final char axis = y > x && y > z ? 'y' : z > x && z > y ? 'z' : 'x';
+		setBVH(y > x && y > z ? 1 : z > x && z > y ? 2 : 0, 3);
+	}
 
-		var l = new Geometries();
-		var m = new Geometries();
-		var r = new Geometries();
-		double midX = (box.maxX + box.minX) / 2;
-		double midY = (box.maxY + box.minY) / 2;
-		double midZ = (box.maxZ + box.minZ) / 2;
-		switch (axis) {
-		case 'x':
-			for (var g : geometries) {
-				if (g.box.minX > midX)
-					r.add(g);
-				else if (g.box.maxX < midX)
-					l.add(g);
-				else
-					m.add(g);
+	/**
+	 * create the hierarchy and put into the right boxes
+	 */
+	private void setBVH(int axis, int count) {
+		if (!cbr || count == 0)
+			return;
+		// min amount of geometries in a box
+		if (geometries.size() > 4) {
+			if (box == null) {
+				var finites = new Geometries(geometries);
+				geometries.clear();
+				this.add(finites.geometries);
+				return;
 			}
-			break;
-		case 'y':
-			for (var g : geometries) {
-				if (g.box.minY > midY)
-					r.add(g);
-				else if (g.box.maxY < midY)
-					l.add(g);
-				else
-					m.add(g);
+
+			var l = new Geometries();
+			var m = new Geometries();
+			var r = new Geometries();
+			double midX = (box.maxX + box.minX) / 2;
+			double midY = (box.maxY + box.minY) / 2;
+			double midZ = (box.maxZ + box.minZ) / 2;
+			switch (axis) {
+			case 0:
+				for (var g : geometries) {
+					if (g.box.minX > midX)
+						r.add(g);
+					else if (g.box.maxX < midX)
+						l.add(g);
+					else
+						m.add(g);
+				}
+				break;
+			case 1:
+				for (var g : geometries) {
+					if (g.box.minY > midY)
+						r.add(g);
+					else if (g.box.maxY < midY)
+						l.add(g);
+					else
+						m.add(g);
+				}
+				break;
+			case 2:
+				for (var g : geometries) {
+					if (g.box.minZ > midZ)
+						r.add(g);
+					else if (g.box.maxZ < midZ)
+						l.add(g);
+					else
+						m.add(g);
+				}
+				break;
 			}
-			break;
-		case 'z':
-			for (var g : geometries) {
-				if (g.box.minZ > midZ)
-					r.add(g);
-				else if (g.box.maxZ < midZ)
-					l.add(g);
-				else
-					m.add(g);
+
+			int nextAxis = (axis + 1) % 3;
+			int lsize = l.geometries.size();
+			int msize = m.geometries.size();
+			int rsize = r.geometries.size();
+			geometries.clear();
+			if (lsize <= 2 || msize + rsize == 0) {
+				this.add(l.geometries);
+				if (msize + rsize == 0)
+					this.setBVH(nextAxis, count - 1);
+			} else {
+				geometries.add(l);
 			}
-			break;
+
+			if (msize <= 2 || lsize + rsize == 0) {
+				this.add(m.geometries);
+				if (lsize + rsize == 0)
+					this.setBVH(nextAxis, count - 1);
+			} else {
+				geometries.add(m);
+			}
+
+			if (rsize <= 2 || lsize + msize == 0) {
+				this.add(r.geometries);
+				if (lsize + msize == 0)
+					this.setBVH(nextAxis, count - 1);
+			} else {
+				geometries.add(r);
+			}
 		}
 
-
-		geometries.clear();
-		if (l.geometries.size() <= 2)
-			geometries.addAll(l.geometries);
-		else {
-			l.setBVH();
-			geometries.add(l);
-		}
-
-		if (m.geometries.size() <= 2)
-			geometries.addAll(m.geometries);
-		else
-			geometries.add(m);
-		
-		if (r.geometries.size() <= 2)
-			geometries.addAll(r.geometries);
-		else {
-			r.setBVH();
-			geometries.add(r);
-		}
+		for (var geo : this.geometries)
+			if (geo instanceof Geometries geos)
+				geos.setBVH();
+		return;
 	}
 
 }
